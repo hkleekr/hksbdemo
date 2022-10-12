@@ -1,0 +1,39 @@
+server:
+  port:   ${PORT:8080}
+# DATABASE
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgres://tzwwhkqjjbssgj:037f7bb6d4c445f4f446d9f485baadde14a251a0026d90f966190b4274a9de6b@ec2-34-200-205-45.compute-1.amazonaws.com:5432/dcp5e950doouhd
+    username: tzwwhkqjjbssgj
+    password: 037f7bb6d4c445f4f446d9f485baadde14a251a0026d90f966190b4274a9de6b
+  sql:
+    init:
+      encoding: utf-8
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQL10Dialect
+        format_sql: true
+        show_sql: true
+    hibernate:
+      ddl-auto: update
+#spring.datasource.url=jdbc:postgresql://localhost:5432/hksbdemo
+#spring.datasource.username=postgres
+#spring.datasource.password=1234
+
+# spring.main.allow-bean-definition-overriding=true
+
+# JPA
+#spring.jpa.hibernate.dialect = org.hibernate.dialect.PostgresSQL10Dialect
+#spring.jpa.properties.hibernate.format_sql = true
+
+
+#spring.jpa.show_sql=true
+
+#spring.jpa.properties.hibernate.temp.use_jdbc_metadata_defaults = false
+#spring.jpa.properties.hibernate.id.new_generator_mappings = false
+#spring.jpa.properties.hibernate.format_sql = true
+#logging.level.org.hibernate.SQL=DEBUG
+#logging.level.org.hibernate.type.descriptor.sql.BasicBinder=TRACE
+#spring.jpa.hibernate.ddl-auto=create
