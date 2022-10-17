@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bootstrap demo</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+<!--네비게이션바-->
+<nav class="navbar navbar-expand-lg bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">Education</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="#">Login</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="#">Sign Up</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<!--버튼과 찾기영역    -->
+<div class="container my-3">
+  <div class="container my-3">
+    <div class="row my-3">
+      <div class="col-6">
+        <a type="button" class="btn btn-primary" th:href="@{/question/ques}">질문 등록하기</a>
+      </div>
+      <div class="col-6">
+        <form class="d-flex" role="search" method="GET" th:action="@{/question/list}">
+          <input class="form-control me-2" type="text" id="searchText" name="searchText">
+          <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+
+      </div>
+    </div>
+  </div>
+  <!--테이블-->
+  <table class="table">
+    <thead class="table-dark">
+    <tr class="text-center">
+      <th scope="col">번호</th>
+      <th scope="col">제목</th>
+      <th scope="col">글쓴이</th>
+      <th scope="col">작성일시</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr class="text-center" th:each="question :${q}">
+      <td class="text-start" th:text="${question.id}">
+      <td class="text-start" >
+        <a th:text="${question.subject}" th:href="@{/question/answ/(id=${question.id})}">세번째 질문</a>
+        <span class="badge rounded-pill text-bg-warning"></span>
+      </td>
+      <td th:text="${question.site_user}">hklee</td>
+      <!--/*@thymesVar id="create_date" type="aj"*/-->
+<!--      <td th:text="${question.create_date}">2022-10-14 9:20</td>-->
+      <td th:text="${#temporals.format(question.create_date,'YYYY-MM-dd HH:mm:ss')}"></td>
+    </tr>
+    </tbody>
+  </table>
+  <!--페이지네이션-->
+  <nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+      <li class="page-item" th:classappend="${1 == q.pageable.pageNumber + 1} ? 'disabled'">
+        <a class="page-link" href="#" th:href="@{/question/list(page=${q.pageable.pageNumber - 1})}">Previous</a>
+      </li>
+      <li class="page-item" th:classappend="${i == q.pageable.pageNumber + 1} ? 'disabled'" th:each="i : ${#numbers.sequence(startPage, endPage)}">
+        <a class="page-link" href="#" th:href="@{/question/list(page=${i - 1})}" th:text="${i}">1</a>
+      </li>
+      <li class="page-item"  th:classappend="${q.totalPages == q.pageable.pageNumber + 1} ? 'disabled'">
+        <a class="page-link" href="#" th:href="@{/question/list(page=${q.pageable.pageNumber + 1})}">Next</a>
+      </li>
+    </ul>
+  </nav>
+<!--  페이지네이션 끝-->
+
+  <form action="/question/list" method="get" id="searchForm">
+    <input type="hidden" id="kw" name="kw" value="">
+    <input type="hidden" id="page" name="page" value="0">
+  </form>
+</div>
+<!-- 자바스크립트 Start -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+<!--<script src="/bootstrap.min.js"></script>-->
+<script type="text/javascript">
+  const myButton = document.getElementById("my-button");
+
+  myButton.addEventListener('click', () => {
+    document.body.style.backgroundColor = 'red';
+  });
+
+
+
+
+  const page_elements = document.getElementsByClassName("page-link");
+  Array.from(page_elements).forEach(function (element) {
+    element.addEventListener('click', function () {
+      document.getElementById('page').value = this.dataset.page;
+      document.getElementById('searchForm').submit();
+    });
+  });
+
+  const btn_search = document.getElementById("btn_search");
+  btn_search.addEventListener('click', function () {
+    document.getElementById('kw').value = document.getElementById('search_kw').value;
+    document.getElementById('page').value = 0;  // 검색버튼을 클릭할 경우 0페이지부터 조회한다.
+    document.getElementById('searchForm').submit();
+  });
+</script>
+<!-- 자바스크립트 End -->
+</body>
+</html>

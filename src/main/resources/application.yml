@@ -1,12 +1,29 @@
 server:
   port:   ${PORT:8080}
-# DATABASE
+# DATABASE-hkdev, 아래쪽은 local, local로 테스트 하고 dev로 갈 예정
 spring:
+  freemarker:
+    cache: false
+  thymeleaf:
+    prefix: file:src/main/resources/templates/
+    #      classpath:
+    suffix: .html
+    check-template-location: true
+    mode: HTML5
+    encoding: UTF-8
+    cache: false
+
+  devtools:
+    livereload:
+      enabled: true
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgres://tzwwhkqjjbssgj:037f7bb6d4c445f4f446d9f485baadde14a251a0026d90f966190b4274a9de6b@ec2-34-200-205-45.compute-1.amazonaws.com:5432/dcp5e950doouhd
-    username: tzwwhkqjjbssgj
-    password: 037f7bb6d4c445f4f446d9f485baadde14a251a0026d90f966190b4274a9de6b
+#    url: jdbc:postgresql://ec2-34-200-205-45.compute-1.amazonaws.com/dcp5e950doouhd
+#    username: tzwwhkqjjbssgj
+#    password: 037f7bb6d4c445f4f446d9f485baadde14a251a0026d90f966190b4274a9de6b
+    url: jdbc:postgresql://localhost:5432/hksbdemo
+    username: postgres
+    password: 1234
   sql:
     init:
       encoding: utf-8
@@ -18,6 +35,8 @@ spring:
         show_sql: true
     hibernate:
       ddl-auto: update
+
+
 #spring.datasource.url=jdbc:postgresql://localhost:5432/hksbdemo
 #spring.datasource.username=postgres
 #spring.datasource.password=1234

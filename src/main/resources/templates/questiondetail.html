@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bootstrap demo</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+</head>
+<body>
+<!--네비게이션바-->
+<nav class="navbar navbar-expand-lg bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">Education</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="#">Login</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="#">Sign Up</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<!--질문 영역, 쓰기 기능이 구현되어야 함    -->
+<div class="container my-3">
+
+  <form action="#" th:action="@{/question/ques}" th:object="${ques}" method="post">
+      <input type="hidden" th:field="*{id}">
+<!--    제목-->
+    <div>
+<!--      <h2 class="border-bottom py-2" type="input" id="title" th:field="*{subject}">제목영역</h2>-->
+
+      <input type="text" class="form-control"
+             th:classappend="${#fields.hasErrors('subject')} ? 'is-invalid'" id="subject" th:field="*{subject}">
+        <div class="invalid-feedback" th:if="${#fields.hasErrors('subject')}" th:errors="*{subject}">
+            제목 에러메시지
+        </div>
+    </div>
+<!--    글내용-->
+    <div class="card border-success mb-3">
+      <div class="card-body text-success">
+        <p class="card-text">
+          <textarea id="content" class="col-md-1 form-control" th:field="*{content}"
+                    th:classappend="${#fields.hasErrors('content')} ? 'is-invalid'" style="height:150px;">글 내용</textarea></p>
+          <div class="invalid-feedback" th:if="${#fields.hasErrors('content')}" th:errors="*{content}">
+              내용을 입력하세요
+          </div>
+      </div>
+    </div>
+
+<!--글쓴이-->
+<!--    <div class="d-flex justify-content-end">-->
+<!--      <div class="mb-2">-->
+<!--        <span>hklee</span>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--    추천-->
+<!--    <div class="my-3">-->
+<!--      <a href="javascript:void(0);" class="recommend btn btn-sm btn-outline-secondary" data-uri="/question/vote/2">-->
+<!--        추천-->
+<!--        <span class="badge rounded-pill bg-success">1</span>-->
+<!--      </a>-->
+<!--    </div>-->
+
+    <div class="row my-3">
+      <div class="col-6">
+        <button class="btn btn-primary" type="submit">질문등록/수정</button>
+<!--        <a href="#" class="btn btn-primary" role="button" data-bs-toggle="button" th:href="@{/question/list}">질문수정</a>-->
+        <a href="#" class="btn btn-primary" role="button" data-bs-toggle="button" th:href="@{/question/list}">질문삭제</a>
+      </div>
+    </div>
+  </form>
+</div>
+
+<!--<div class="container my-3">-->
+<!--  <h2 class="border-bottom py-2">-->
+<!--    <input type="text" name = "title" placeholder="제목입력"-->
+<!--    th:value="${question?.subject}">-->
+<!--    제목영역 질문을 등록합니다.-->
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+<!-- 자바스크립트 Start -->
+<script type="text/javascript">
+  const delete_elements = document.getElementsByClassName("delete");
+  Array.from(delete_elements).forEach(function (element) {
+    element.addEventListener('click', function () {
+      if (confirm("정말로 삭제하시겠습니까?")) {
+        location.href = this.dataset.uri;
+      };
+    });
+  });
+
+  const recommend_elements = document.getElementsByClassName("recommend");
+  Array.from(recommend_elements).forEach(function (element) {
+    element.addEventListener('click', function () {
+      if (confirm("정말로 추천하시겠습니까?")) {
+        location.href = this.dataset.uri;
+      };
+    });
+  });
+</script>
+<!-- 자바스크립트 End -->
+
+</body>
+</html>
