@@ -8,6 +8,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
     <script>
+        // 댓글등록
         document.addEventListener("DOMContentLoaded", () => {
             document.getElementById("answerBtn").addEventListener("click",()=>{
                 let params = new FormData;
@@ -34,6 +35,35 @@
                 })
 
                 .catch((error) => alert(error))
+            })
+        })
+        //댓글삭제
+        document.addEventListener("DOMContentLoaded", () => {
+            document.getElementById("btnAnswerDelete").addEventListener("click",()=>{
+                let params = new FormData;
+                params.append("content",document.getElementById("btnAnswerDelete").value)  // 삭제대상 답변
+                params.append("question","[[${param.id}]]")   //이 곳의 param.id 확인 필요
+
+                fetch("/question/answ/{id}", {
+                    method: "DELETE",
+                    body: params,
+                    headers : {}
+                })
+                    .then((response) => {
+                        if (response.ok) {
+                            return response.json()
+                        }
+                    })
+                    //콜백함수
+                    .then((res)=>{
+                        console.log(res.responseCode);
+                        if(res.responseCode === "성공"){
+                            alert("등록성공");
+                            window.location.reload();
+                        }
+                    })
+
+                    .catch((error) => alert(error))
             })
         })
     </script>
@@ -124,7 +154,7 @@
 <!--                    <input type="hidden" name="no" th:value="detail.id">-->
                     <button class="btn btn-primary">답변등록/수정</button>
                     <!--        <a href="#" class="btn btn-primary" role="button" data-bs-toggle="button" th:href="@{/question/list}">질문수정</a>-->
-                    <a href="#" class="btn btn-primary" role="button" data-bs-toggle="button"
+                    <a href="#" class="btn btn-primary" role="button" data-bs-toggle="button" id="btnAnswerDelete"
                        th:href="@{/question/answ}">답변삭제</a>
                 </div>
             </div>

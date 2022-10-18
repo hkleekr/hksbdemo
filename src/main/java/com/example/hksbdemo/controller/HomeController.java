@@ -4,6 +4,7 @@ import com.example.hksbdemo.domain.answer.AnswerResponseDto;
 import com.example.hksbdemo.domain.answer.AnswerSaveRequestDto;
 import com.example.hksbdemo.domain.question.question;
 import com.example.hksbdemo.domain.question.questionSaveRequestDto;
+import com.example.hksbdemo.repository.answerRepository;
 import com.example.hksbdemo.repository.questionRepository;
 import com.example.hksbdemo.service.answer.answerService;
 import com.example.hksbdemo.service.question.questionService;
@@ -24,6 +25,8 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 public class HomeController {
 
+    @Autowired
+    private answerRepository answerRepository;
     @Autowired
     private questionRepository questionRepository;
 
@@ -49,13 +52,6 @@ public class HomeController {
     return "answerdetail";
     }
 
-    //답변저장하기
-//    @PostMapping("/question/answ")
-//    public String greetingSubmit(@ModelAttribute Greeting greeting, Model model) {
-//        model.addAttribute("greeting", greeting);
-//        return "result";
-//    }
-
     @GetMapping("/question/ques")
     public String ques(Model model, @RequestParam(required = false) Integer id) {
         if(id == null){
@@ -79,10 +75,8 @@ public class HomeController {
     public ResponseEntity<AnswerResponseDto> AnswerSubmit(AnswerSaveRequestDto answerSaveRequestDto) {
         AnswerResponseDto answerResponseDto = new AnswerResponseDto();
         answerService.save(answerSaveRequestDto, answerResponseDto);
-
         return ResponseEntity.ok().body(answerResponseDto);
     }
-
 
     @GetMapping("/user/login")
     public String login() {
@@ -93,15 +87,6 @@ public class HomeController {
     private final answerService answerService;
     private final questionService questionService;
 
-// 질문에 해당하는 답변이므로, 질문id의 page에 구현되어야 함
-//    @ResponseBody
-//    @PostMapping("/question/answ/")
-//    public ResponseEntity<Integer> answ(@RequestBody answerSaveRequestDto requestDto) {
-//        return ResponseEntity.ok().body(answerService.save(requestDto));
-//    }
-
-//    PUT - crUd: POST와 뭐가 다른건가...!
-//    question 수정
 
     @ResponseBody
     @PutMapping("/question/answ/{id}")
@@ -116,21 +101,16 @@ public class HomeController {
         return "redirect:list";
     }
 
-//    public ResponseEntity<Integer> update(@PathVariable Integer id, @RequestBody questionSaveRequestDto requestDto) {
-//        return ResponseEntity.ok().body(questionService.update(id, requestDto));
+//    @ResponseBody
+//    @DeleteMapping("/question/ques/{id}")
+//    public ResponseEntity<Integer> delete(@PathVariable Integer id, @RequestBody questionSaveRequestDto requestDto) {
+//        return ResponseEntity.ok().body(questionService.delete((id, requestDto)));
 //    }
 
-    //    만들긴 했는데,, 맞나? id만으로 지워지면 될 것 같은데, 내용이 있어야 지워지는 모양새
-//    @ResponseBody
-//    @DeleteMapping("/question/answ/{id}")
-//    public ResponseEntity<Integer> delete(@PathVariable Integer id, @RequestBody answerSaveRequestDto requestDto) {
-//        return ResponseEntity.ok().body(answerService.delete(id, requestDto));
-//    }
-//
     @ResponseBody
-    @DeleteMapping("/question/ques/{id}")
-    public ResponseEntity<Integer> delete(@PathVariable Integer id, @RequestBody questionSaveRequestDto requestDto) {
-        return ResponseEntity.ok().body(questionService.delete(id, requestDto));
+    @DeleteMapping("/question/answ/{id}")
+    public ResponseEntity<Integer> delete(@PathVariable Integer id, @RequestBody AnswerSaveRequestDto requestDto) {
+        return ResponseEntity.ok().body(answerService.delete(id, requestDto));
     }
 
 
