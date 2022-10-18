@@ -1,17 +1,17 @@
 package com.example.hksbdemo.domain.answer;
 
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.example.hksbdemo.domain.question.question;
+import lombok.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
 @Entity(name = "answer")
-@EntityListeners(value = AuditingEntityListener.class)
+//@EntityListeners(value = AuditingEntityListener.class)
 public class answer {
 
     @Id
@@ -33,11 +33,11 @@ public class answer {
     private com.example.hksbdemo.domain.site_user.site_user site_user;
 
     @ManyToOne
-    @JoinColumn(name = "question_id")
-    private com.example.hksbdemo.domain.question.question question;
+//    @JoinColumn(name = "question_id")
+    private question question;
 
     @Builder
-    public answer(String content, LocalDateTime create_date, LocalDateTime modify_date, com.example.hksbdemo.domain.site_user.site_user site_user, com.example.hksbdemo.domain.question.question question) {
+    public answer(String content, LocalDateTime create_date, LocalDateTime modify_date, com.example.hksbdemo.domain.site_user.site_user site_user, question question) {
         this.content = content;
         this.create_date = create_date;
         this.modify_date = modify_date;

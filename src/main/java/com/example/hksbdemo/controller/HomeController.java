@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -32,7 +33,7 @@ public class HomeController {
 
     //    GET- cRud
     @GetMapping("/question/list")
-    public String list(Model model, @PageableDefault(size = 8, sort="id") Pageable pageable,
+    public String list(Model model, @PageableDefault(size = 8, sort="id", direction = Sort.Direction.DESC) Pageable pageable,
                        @RequestParam(required = false, defaultValue = "") String searchText) {
 //        Page<question> q = questionRepository.findAll(pageable);
         Page<question> q = questionRepository.findBySubjectContainingOrContentContaining(searchText, searchText, pageable);

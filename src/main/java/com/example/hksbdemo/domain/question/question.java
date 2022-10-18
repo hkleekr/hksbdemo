@@ -1,21 +1,30 @@
 package com.example.hksbdemo.domain.question;
 
 import com.example.hksbdemo.domain.answer.answer;
-import com.example.hksbdemo.domain.site_user.site_user;
 import com.sun.istack.NotNull;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.springframework.core.annotation.Order;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
 @Entity(name = "question")
 public class question {
+    @Override
+    public String toString() {
+        return "question{" +
+                "id=" + id +
+                ", content='" + content + '\'' +
+                ", create_date=" + create_date +
+                ", modify_date=" + modify_date +
+                ", subject='" + subject + '\'' +
+                ", site_user=" + site_user +
+                ", answerList=" + answerList +
+                '}';
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,7 +49,7 @@ public class question {
     private com.example.hksbdemo.domain.site_user.site_user site_user;
 
     @OneToMany (mappedBy = "question", cascade = CascadeType.REMOVE)
-    @OrderBy("id asc")  // 댓글 정렬 10/17 추가
+//    @OrderBy("id asc")  // 댓글 정렬 10/17 추가
     private List<answer> answerList;
 
     @Builder
