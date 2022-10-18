@@ -1,16 +1,15 @@
 package com.example.hksbdemo.controller;
 
-import com.example.hksbdemo.domain.answer.answerSaveRequestDto;
+import com.example.hksbdemo.domain.answer.AnswerResponseDto;
+import com.example.hksbdemo.domain.answer.AnswerSaveRequestDto;
 import com.example.hksbdemo.domain.question.question;
 import com.example.hksbdemo.domain.question.questionSaveRequestDto;
 import com.example.hksbdemo.repository.questionRepository;
 import com.example.hksbdemo.service.answer.answerService;
 import com.example.hksbdemo.service.question.questionService;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.annotations.OnDelete;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -20,9 +19,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Controller
@@ -79,6 +75,13 @@ public class HomeController {
         questionRepository.save(question);
         return "redirect:list";
     }
+    @PostMapping("/question/answ")
+    public ResponseEntity<AnswerResponseDto> AnswerSubmit(AnswerSaveRequestDto answerSaveRequestDto) {
+        AnswerResponseDto answerResponseDto = new AnswerResponseDto();
+        answerService.save(answerSaveRequestDto, answerResponseDto);
+
+        return ResponseEntity.ok().body(answerResponseDto);
+    }
 
 
     @GetMapping("/user/login")
@@ -102,7 +105,7 @@ public class HomeController {
 
     @ResponseBody
     @PutMapping("/question/answ/{id}")
-    public ResponseEntity<Integer> update(@PathVariable Integer id, @RequestBody answerSaveRequestDto requestDto) {
+    public ResponseEntity<Integer> update(@PathVariable Integer id, @RequestBody AnswerSaveRequestDto requestDto) {
         return ResponseEntity.ok().body(answerService.update(id, requestDto));
     }
 

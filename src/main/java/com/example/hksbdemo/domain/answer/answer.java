@@ -33,7 +33,7 @@ public class answer {
     private com.example.hksbdemo.domain.site_user.site_user site_user;
 
     @ManyToOne
-//    @JoinColumn(name = "question_id")
+    @JoinColumn(name = "question_id")
     private question question;
 
     @Builder

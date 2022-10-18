@@ -1,17 +1,12 @@
 package com.example.hksbdemo.service.question;
 
-import com.example.hksbdemo.domain.answer.answerSaveRequestDto;
 import com.example.hksbdemo.domain.question.question;
 import com.example.hksbdemo.repository.questionRepository;
 import com.example.hksbdemo.domain.question.questionSaveRequestDto;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor

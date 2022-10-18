@@ -1,18 +1,14 @@
 package com.example.hksbdemo.domain.answer;
 
-import com.example.hksbdemo.domain.answer.answer;
-import com.example.hksbdemo.domain.question.question;
-import com.example.hksbdemo.domain.site_user.site_user;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 @NoArgsConstructor
 @Data
-public class answerSaveRequestDto {
+public class AnswerSaveRequestDto {
 
     private String content;
     private LocalDateTime create_date;
@@ -21,8 +17,7 @@ public class answerSaveRequestDto {
     private com.example.hksbdemo.domain.question.question question;
 
     @Builder
-
-    public answerSaveRequestDto(String content, LocalDateTime create_date, LocalDateTime modify_date, com.example.hksbdemo.domain.site_user.site_user site_user, com.example.hksbdemo.domain.question.question question) {
+    public AnswerSaveRequestDto(String content, LocalDateTime create_date, LocalDateTime modify_date, com.example.hksbdemo.domain.site_user.site_user site_user, com.example.hksbdemo.domain.question.question question) {
         this.content = content;
         this.create_date = create_date;
         this.modify_date = modify_date;

@@ -9,7 +9,32 @@
           integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
     <script>
         document.addEventListener("DOMContentLoaded", () => {
-            debugger;
+            document.getElementById("answerBtn").addEventListener("click",()=>{
+                let params = new FormData;
+                params.append("content",document.getElementById("answerContent").value)
+                params.append("question","[[${param.id}]]")
+
+            fetch("/question/answ", {
+                method: "POST",
+                body: params,
+                headers : {}
+            })
+                .then((response) => {
+                    if (response.ok) {
+                        return response.json()
+                    }
+                })
+                //콜백함수
+                .then((res)=>{
+                    console.log(res.responseCode);
+                    if(res.responseCode === "성공"){
+                    alert("등록성공");
+                    window.location.reload();
+                    }
+                })
+
+                .catch((error) => alert(error))
+            })
         })
     </script>
 </head>
@@ -36,7 +61,7 @@
 </nav>
 <!--질문 영역    -->
 <div class="container my-3">
-    <form action="#" th:action="@{/question/ques}" method="post">
+    <form action="#">
         <input type="hidden">
         <h2 class="border-bottom py-2" type="input" id="title" th:text="${detail.subject}"></h2>
         <div class="card border-success mb-3">
@@ -49,6 +74,9 @@
                     <div class="mb-2">>
                         <span>hklee</span>
                     </div>
+                </div>
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                    <button class="btn btn-outline-danger me-md-2" type="button">질문 삭제</button>
                 </div>
             </div>
         </div>
@@ -63,20 +91,19 @@
     </form>
 
     <!--답변쓰기영역-->
-    <form action="#" th:action="@{/question/answ/}" method="POST">
+    <form action="#">
         <h2 class="border-bottom py-2">당신의 의견을 들려주세요!!!</h2>
         <div class="card border-success mb-3">
             <div class="card-body text-success">
                 <p class="card-text">
-                    <textarea class="col-md-1 form-control" id="commentContents" style="height:150px;">이 곳에 적어주세요</textarea>
+                    <textarea class="col-md-1 form-control" id="answerContent" style="height:150px;">이 곳에 적어주세요</textarea>
                 </p>
             </div>
             <div class="row my-3">
                 <div class="col-6">
-                    <input type="hidden" name ="no" th:value="detail.id">
-                    <button class="btn btn-primary" type="submit">답변등록</button>
-                    <!--        <a href="#" class="btn btn-primary" role="button" data-bs-toggle="button" th:href="@{/question/list}">질문수정</a>-->
-<!--                    <a href="#" class="btn btn-primary" role="button" data-bs-toggle="button" th:href="@{/question/answ}">답변삭제</a>-->
+<!--<button></button>을 사용하면 무한리다이렉트현상이 발생함-->
+                    <div id="answerBtn">답변을 등록(버튼이 아니어서 죄송합니다~)</div>
+
                 </div>
             </div>
         </div>
@@ -94,8 +121,8 @@
 <!--            <script src="https://code.jquery.com/jquery-3.6.0.js"></script>-->
             <div class="row my-3">
                 <div class="col-6">
-                    <input type="hidden" name="no" th:value="detail.id">
-                    <button class="btn btn-primary" type="submit">답변등록/수정</button>
+<!--                    <input type="hidden" name="no" th:value="detail.id">-->
+                    <button class="btn btn-primary">답변등록/수정</button>
                     <!--        <a href="#" class="btn btn-primary" role="button" data-bs-toggle="button" th:href="@{/question/list}">질문수정</a>-->
                     <a href="#" class="btn btn-primary" role="button" data-bs-toggle="button"
                        th:href="@{/question/answ}">답변삭제</a>
