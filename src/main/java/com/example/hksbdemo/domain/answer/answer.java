@@ -48,6 +48,9 @@ public class answer {
     void create_date() {
         this.create_date = this.create_date = LocalDateTime.now();
     }
+    void modify_date() {
+        this.modify_date = this.modify_date = LocalDateTime.now();
+    }
 }
 
 

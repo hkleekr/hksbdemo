@@ -11,7 +11,7 @@
 <!--네비게이션바-->
 <nav class="navbar navbar-expand-lg bg-light">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">Education</a>
+    <a class="navbar-brand" href="/board">Education</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -32,10 +32,10 @@
   <div class="container my-3">
     <div class="row my-3">
       <div class="col-6">
-        <a type="button" class="btn btn-primary" th:href="@{/question/ques}">질문 등록하기</a>
+        <a type="button" class="btn btn-primary" th:href="@{/board/question}">질문 등록하기</a>
       </div>
       <div class="col-6">
-        <form class="d-flex" role="search" method="GET" th:action="@{/question/list}">
+        <form class="d-flex" role="search" method="GET" th:action="@{/board}">
           <input class="form-control me-2" type="text" id="searchText" name="searchText">
           <button class="btn btn-outline-success" type="submit">Search</button>
         </form>
@@ -57,7 +57,7 @@
     <tr class="text-center" th:each="question :${q}">
       <td class="text-start" th:text="${question.id}">
       <td class="text-start" >
-        <a th:text="${question.subject}" th:href="@{/question/answ/(id=${question.id})}">세번째 질문</a>
+        <a th:text="${question.subject}" th:href="@{/board/detail/(id=${question.id})}">세번째 질문</a>
         <span class="badge rounded-pill text-bg-warning"></span>
       </td>
       <td th:text="${question.site_user}">hklee</td>
@@ -71,19 +71,19 @@
   <nav aria-label="Page navigation example">
     <ul class="pagination justify-content-center">
       <li class="page-item" th:classappend="${1 == q.pageable.pageNumber + 1} ? 'disabled'">
-        <a class="page-link" href="#" th:href="@{/question/list(page=${q.pageable.pageNumber - 1})}">Previous</a>
+        <a class="page-link" href="#" th:href="@{/board(page=${q.pageable.pageNumber - 1})}">Previous</a>
       </li>
       <li class="page-item" th:classappend="${i == q.pageable.pageNumber + 1} ? 'disabled'" th:each="i : ${#numbers.sequence(startPage, endPage)}">
-        <a class="page-link" href="#" th:href="@{/question/list(page=${i - 1})}" th:text="${i}">1</a>
+        <a class="page-link" href="#" th:href="@{/board(page=${i - 1})}" th:text="${i}">1</a>
       </li>
       <li class="page-item"  th:classappend="${q.totalPages == q.pageable.pageNumber + 1} ? 'disabled'">
-        <a class="page-link" href="#" th:href="@{/question/list(page=${q.pageable.pageNumber + 1})}">Next</a>
+        <a class="page-link" href="#" th:href="@{/board(page=${q.pageable.pageNumber + 1})}">Next</a>
       </li>
     </ul>
   </nav>
 <!--  페이지네이션 끝-->
 
-  <form action="/question/list" method="get" id="searchForm">
+  <form action="/board" method="get" id="searchForm">
     <input type="hidden" id="kw" name="kw" value="">
     <input type="hidden" id="page" name="page" value="0">
   </form>

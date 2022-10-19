@@ -48,7 +48,7 @@ public class question {
     @JoinColumn(name = "author_id")
     private com.example.hksbdemo.domain.site_user.site_user site_user;
 
-    @OneToMany (mappedBy = "question", cascade = CascadeType.REMOVE)
+    @OneToMany (mappedBy = "question", cascade = CascadeType.REMOVE) // cascade => answer도 함께 저장
 //    @OrderBy("id asc")  // 댓글 정렬 10/17 추가
     private List<answer> answerList;  // 이 항목을 추가함으로써 answer와 연결
 
@@ -60,8 +60,12 @@ public class question {
         this.subject = subject;
         this.site_user = site_user;
     }
+
     @PrePersist
     void create_date() {
         this.create_date = this.create_date = LocalDateTime.now();
+    }
+    void modify_date() {
+        this.modify_date = this.modify_date = LocalDateTime.now();
     }
 }

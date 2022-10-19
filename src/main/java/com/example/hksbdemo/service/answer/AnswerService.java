@@ -13,7 +13,7 @@ import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
-public class answerService {
+public class AnswerService {
 
     private final answerRepository answerRepository;
 
@@ -28,19 +28,33 @@ public class answerService {
         responseDTO.setResponseCode(result);
         }
 
-    public Integer update(Integer id, AnswerSaveRequestDto requestDto) {
+    public void update(Integer id, AnswerSaveRequestDto requestDto, AnswerResponseDto responseDto) {
         Optional<answer> oa = answerRepository.findById(id);
         answer a = oa.get();
         a.setContent(requestDto.getContent());
         a.setModify_date(LocalDateTime.now());
-        return answerRepository.save(a).getId();
+//        return answerRepository.save(a).getId();
+        String result = "";
+        boolean modifyAnswer = answerRepository.existsById(id); // 수정시간이 다르면 성공** 체크해 볼 것
+        if(modifyAnswer == true) {
+            result = "성공";
+        }
+        responseDto.setResponseCode(result);
+
     }
 
     //    만들긴 했는데,, 맞나?
-    public Integer delete(Integer id, AnswerSaveRequestDto requestDto) {
+    public void delete(Integer id, AnswerResponseDto responseDto) {
         answerRepository.deleteById(id);
-        return answerRepository.save(requestDto.toEntity()).getId();
+        if(answerRepository.existsById(id) == false) {
+            responseDto.setResponseCode("삭제성공");
+        }
     }
+
+ /*   public Integer findAnswerId(Integer question_id, AnswerResponseDto responseDto) {
+        answerRepository.findById(question_id);
+        return answerRepository.getId();  // 답변의 id를 데려오고 싶은데...빨간색이네..
+    }*/
 
 
 }

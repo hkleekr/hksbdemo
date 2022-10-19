@@ -6,38 +6,48 @@ import com.example.hksbdemo.repository.questionRepository;
 import com.example.hksbdemo.domain.question.QuestionSaveRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
-public class questionService {
+public class QuestionService {
 
     private final questionRepository questionRepository;
 
-
-    public Integer save(QuestionSaveRequestDto requestDto) {
-        return questionRepository.save(requestDto.toEntity()).getId();
+    @Transactional
+    public void save(QuestionSaveRequestDto requestDto, QuestionResponseDto responseDto) {
+        Integer getId = questionRepository.save(requestDto.toEntity()).getId();
+        String result = "";
+        boolean question = questionRepository.existsById(getId);
+        if(question == true) {
+            result = "성공";
+        }
+        responseDto.setResponseCode(result);
     }
 
-
-    public Integer update(Integer id, QuestionSaveRequestDto requestDto) {
+    @Transactional
+    public void update(Integer id, QuestionSaveRequestDto requestDto, QuestionResponseDto responseDto) {
         Optional <question> oq = questionRepository.findById(id);
         question q = oq.get();
         q.setContent(requestDto.getContent());
         q.setSubject(requestDto.getSubject());
-        q.setModify_date(LocalDateTime.now());
-        return questionRepository.save(q).getId();
+        String result = "";
+        boolean modifyQuestion = questionRepository.existsById(id);
+        if(modifyQuestion == true) {
+            result = "성공";
+        }
+        responseDto.setResponseCode(result);
     }
 
-//    만들긴 했는데,, 맞나?
+
     public void delete(Integer id, QuestionResponseDto responseDto) {
         questionRepository.deleteById(id);
         if(questionRepository.existsById(id) == false) {
             responseDto.setResponseCode("삭제성공");
         }
-//        return questionRepository.save(requestDto.toEntity()).getId(); // delete인데 .save(getId())는 이상한 일..
     }
 
     public Object getDetail(Integer id) {
