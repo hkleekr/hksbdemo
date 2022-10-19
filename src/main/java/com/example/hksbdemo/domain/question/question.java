@@ -50,7 +50,7 @@ public class question {
 
     @OneToMany (mappedBy = "question", cascade = CascadeType.REMOVE)
 //    @OrderBy("id asc")  // 댓글 정렬 10/17 추가
-    private List<answer> answerList;
+    private List<answer> answerList;  // 이 항목을 추가함으로써 answer와 연결
 
     @Builder
     public question(String content, LocalDateTime create_date, LocalDateTime modify_date, String subject, com.example.hksbdemo.domain.site_user.site_user site_user) {

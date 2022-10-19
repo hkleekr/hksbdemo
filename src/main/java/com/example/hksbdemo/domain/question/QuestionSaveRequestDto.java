@@ -1,7 +1,5 @@
 package com.example.hksbdemo.domain.question;
 
-import com.example.hksbdemo.domain.question.question;
-import com.example.hksbdemo.domain.site_user.site_user;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,7 +8,7 @@ import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @Data
-public class questionSaveRequestDto {
+public class QuestionSaveRequestDto {
 
     private String content;
     private LocalDateTime create_date;
@@ -20,7 +18,7 @@ public class questionSaveRequestDto {
 
     @Builder
 
-    public questionSaveRequestDto(String content, LocalDateTime create_date, LocalDateTime modify_date, String subject, com.example.hksbdemo.domain.site_user.site_user site_user) {
+    public QuestionSaveRequestDto(String content, LocalDateTime create_date, LocalDateTime modify_date, String subject, com.example.hksbdemo.domain.site_user.site_user site_user) {
         this.content = content;
         this.create_date = create_date;
         this.modify_date = modify_date;

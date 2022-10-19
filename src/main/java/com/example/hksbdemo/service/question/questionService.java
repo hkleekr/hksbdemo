@@ -1,8 +1,9 @@
 package com.example.hksbdemo.service.question;
 
+import com.example.hksbdemo.domain.question.QuestionResponseDto;
 import com.example.hksbdemo.domain.question.question;
 import com.example.hksbdemo.repository.questionRepository;
-import com.example.hksbdemo.domain.question.questionSaveRequestDto;
+import com.example.hksbdemo.domain.question.QuestionSaveRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,12 +17,12 @@ public class questionService {
     private final questionRepository questionRepository;
 
 
-    public Integer save(questionSaveRequestDto requestDto) {
+    public Integer save(QuestionSaveRequestDto requestDto) {
         return questionRepository.save(requestDto.toEntity()).getId();
     }
 
 
-    public Integer update(Integer id, questionSaveRequestDto requestDto) {
+    public Integer update(Integer id, QuestionSaveRequestDto requestDto) {
         Optional <question> oq = questionRepository.findById(id);
         question q = oq.get();
         q.setContent(requestDto.getContent());
@@ -31,9 +32,12 @@ public class questionService {
     }
 
 //    만들긴 했는데,, 맞나?
-    public Integer delete(Integer id, questionSaveRequestDto requestDto) {
+    public void delete(Integer id, QuestionResponseDto responseDto) {
         questionRepository.deleteById(id);
-        return questionRepository.save(requestDto.toEntity()).getId();
+        if(questionRepository.existsById(id) == false) {
+            responseDto.setResponseCode("삭제성공");
+        }
+//        return questionRepository.save(requestDto.toEntity()).getId(); // delete인데 .save(getId())는 이상한 일..
     }
 
     public Object getDetail(Integer id) {

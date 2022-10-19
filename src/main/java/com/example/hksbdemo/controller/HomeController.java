@@ -2,8 +2,9 @@ package com.example.hksbdemo.controller;
 
 import com.example.hksbdemo.domain.answer.AnswerResponseDto;
 import com.example.hksbdemo.domain.answer.AnswerSaveRequestDto;
+import com.example.hksbdemo.domain.question.QuestionResponseDto;
 import com.example.hksbdemo.domain.question.question;
-import com.example.hksbdemo.domain.question.questionSaveRequestDto;
+import com.example.hksbdemo.domain.question.QuestionSaveRequestDto;
 import com.example.hksbdemo.repository.answerRepository;
 import com.example.hksbdemo.repository.questionRepository;
 import com.example.hksbdemo.service.answer.answerService;
@@ -29,6 +30,7 @@ public class HomeController {
     private answerRepository answerRepository;
     @Autowired
     private questionRepository questionRepository;
+    private ResponseEntity<QuestionResponseDto> Boolean;
 
     //    GET- cRud
     @GetMapping("/question/list")
@@ -71,11 +73,19 @@ public class HomeController {
         questionRepository.save(question);
         return "redirect:list";
     }
+
     @PostMapping("/question/answ")
+    // 스프링 내장함수 "ResponseEntity<>"의 <>안 타입영역에 불러올 DTO를 넣는다. "AnswerSubmit()"에 요청 DTO를 담고,
     public ResponseEntity<AnswerResponseDto> AnswerSubmit(AnswerSaveRequestDto answerSaveRequestDto) {
-        AnswerResponseDto answerResponseDto = new AnswerResponseDto();
-        answerService.save(answerSaveRequestDto, answerResponseDto);
-        return ResponseEntity.ok().body(answerResponseDto);
+        AnswerResponseDto answerResponseDto = new AnswerResponseDto(); // "AnswerResponseDto"의 객체를 생성
+        answerService.save(answerSaveRequestDto, answerResponseDto); // answerService.java의 "save()"를 통해 인자를 주입
+        return ResponseEntity.ok().body(answerResponseDto); // "ResponseEntity.ok()" 잘 실행 되었으면, body의 "answerResponseDto"를 리턴하시오
+    }
+
+    // question 삭제
+    public ResponseEntity<QuestionResponseDto> deleteQuestion(@RequestParam ("id") Integer id, QuestionResponseDto responseDto) {  // ResponseEntity<QuestionResponseDto>, requestDTO로 작업요청, id도 넣어줌: 이 방법을 수행하려면, QuestionRequestDto에 id 변수가 있어야 했는데, 내가 그건 생성을 안해둬서 이번엔 사용할 수 없음.
+        questionService.delete(id, responseDto);   // id에 해당하는 question을 삭제요청 in questionSaveReqeustDto.java by 'questionService.java'에 있는 delete()
+        return ResponseEntity.ok().body(responseDto);  // void로 return이 필요없을 것 같지만, 잘 수행했는지 확인용으로 responseDto를 받아줌
     }
 
     @GetMapping("/user/login")
@@ -107,11 +117,6 @@ public class HomeController {
 //        return ResponseEntity.ok().body(questionService.delete((id, requestDto)));
 //    }
 
-    @ResponseBody
-    @DeleteMapping("/question/answ/{id}")
-    public ResponseEntity<Integer> delete(@PathVariable Integer id, @RequestBody AnswerSaveRequestDto requestDto) {
-        return ResponseEntity.ok().body(answerService.delete(id, requestDto));
-    }
 
 
 //    게시판 추천기능을 위한 코드
