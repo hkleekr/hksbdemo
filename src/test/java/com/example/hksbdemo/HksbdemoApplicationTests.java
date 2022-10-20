@@ -1,11 +1,6 @@
 package com.example.hksbdemo;
 
-import com.example.hksbdemo.domain.question.question;
-import com.example.hksbdemo.domain.site_user.site_user;
-import com.example.hksbdemo.repository.questionRepository;
-import com.example.hksbdemo.repository.site_userRepository;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import com.example.hksbdemo.repository.SiteUserRepository;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -19,7 +14,7 @@ class HksbdemoApplicationTests {
 	protected com.example.hksbdemo.repository.questionRepository questionRepository;
 
 	@Autowired
-	protected com.example.hksbdemo.repository.site_userRepository site_userRepository;
+	protected SiteUserRepository site_userRepository;
 
 	private final String title = "제목";
 	private final String email = "gprud@naver.com";

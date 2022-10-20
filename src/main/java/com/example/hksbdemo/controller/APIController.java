@@ -2,7 +2,7 @@ package com.example.hksbdemo.controller;
 
 import java.util.List;
 
-import com.example.hksbdemo.domain.question.question;
+import com.example.hksbdemo.domain.Question;
 import com.example.hksbdemo.repository.questionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
@@ -18,7 +18,7 @@ class APIController {
     // Aggregate root
     // tag::get-aggregate-root[]
     @GetMapping("/questions")
-    List<question> all(@RequestParam(required = false, defaultValue = "") String subject,
+    List<Question> all(@RequestParam(required = false, defaultValue = "") String subject,
                        @RequestParam(required = false, defaultValue = "") String content) {
         if(StringUtils.isEmpty(subject) && StringUtils.isEmpty(content)) {
             return repository.findAll();
@@ -29,19 +29,19 @@ class APIController {
     // end::get-aggregate-root[]
 
     @PostMapping("/questions")
-    question newquestion(@RequestBody question newquestion) {
+    Question newquestion(@RequestBody Question newquestion) {
         return repository.save(newquestion);
     }
 
     // Single item
 
     @GetMapping("/questions/{id}")
-    question one(@PathVariable Integer id) {
+    Question one(@PathVariable Integer id) {
         return repository.findById(id).orElse(null);
     }
 
     @PutMapping("/questions/{id}")
-    question replacequestion(@RequestBody question newquestion, @PathVariable Integer id) {
+    Question replacequestion(@RequestBody Question newquestion, @PathVariable Integer id) {
 
         return repository.findById(id)
                 .map(question -> {

@@ -1,6 +1,5 @@
 package com.example.hksbdemo.domain.site_user;
 
-import com.example.hksbdemo.domain.site_user.site_user;
 import lombok.Data;
 
 @Data
@@ -10,7 +9,7 @@ public class site_userResponseDto {
     private String password;
     private String username;
 
-    public site_userResponseDto(site_user entity) {
+    public site_userResponseDto(SiteUser entity) {
         this.id = entity.getId();
         this.email = entity.getEmail();
         this.password = entity.getPassword();

@@ -1,7 +1,6 @@
-package com.example.hksbdemo.domain.answer;
+package com.example.hksbdemo.domain;
 
-import com.example.hksbdemo.domain.question.question;
-import com.example.hksbdemo.domain.site_user.site_user;
+import com.example.hksbdemo.domain.site_user.SiteUser;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -12,12 +11,12 @@ public class AnswerResponseDto {
     private String content;
     private LocalDateTime create_date;
     private LocalDateTime modify_date;
-    private com.example.hksbdemo.domain.site_user.site_user site_user;
-    private com.example.hksbdemo.domain.question.question question;
+    private SiteUser site_user;
+    private Question question;
 
     private String responseCode;
 
-    public AnswerResponseDto(answer entity) {
+    public AnswerResponseDto(Answer entity) {
         this.id = entity.getId();
         this.content = entity.getContent();
         this.create_date = entity.getCreate_date();
@@ -26,7 +25,7 @@ public class AnswerResponseDto {
         this.question = entity.getQuestion();
     }
 
-    public AnswerResponseDto(Integer id, String content, LocalDateTime create_date, LocalDateTime modify_date, com.example.hksbdemo.domain.site_user.site_user site_user, com.example.hksbdemo.domain.question.question question, String responseCode) {
+    public AnswerResponseDto(Integer id, String content, LocalDateTime create_date, LocalDateTime modify_date, SiteUser site_user, Question question, String responseCode) {
         this.id = id;
         this.content = content;
         this.create_date = create_date;

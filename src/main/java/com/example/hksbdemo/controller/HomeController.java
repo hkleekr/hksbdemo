@@ -1,10 +1,10 @@
 package com.example.hksbdemo.controller;
 
-import com.example.hksbdemo.domain.answer.AnswerResponseDto;
-import com.example.hksbdemo.domain.answer.AnswerSaveRequestDto;
-import com.example.hksbdemo.domain.question.QuestionResponseDto;
-import com.example.hksbdemo.domain.question.question;
-import com.example.hksbdemo.domain.question.QuestionSaveRequestDto;
+import com.example.hksbdemo.domain.AnswerResponseDto;
+import com.example.hksbdemo.domain.AnswerSaveRequestDto;
+import com.example.hksbdemo.domain.QuestionResponseDto;
+import com.example.hksbdemo.domain.Question;
+import com.example.hksbdemo.domain.QuestionSaveRequestDto;
 import com.example.hksbdemo.repository.answerRepository;
 import com.example.hksbdemo.repository.questionRepository;
 import com.example.hksbdemo.service.answer.AnswerService;
@@ -38,7 +38,7 @@ public class HomeController {
     public String list(Model model, @PageableDefault(size = 8, sort="id", direction = Sort.Direction.DESC) Pageable pageable,
                        @RequestParam(required = false, defaultValue = "") String searchText) {
 //        Page<question> q = questionRepository.findAll(pageable);
-        Page<question> q = questionRepository.findBySubjectContainingOrContentContaining(searchText, searchText, pageable);
+        Page<Question> q = questionRepository.findBySubjectContainingOrContentContaining(searchText, searchText, pageable);
         int startPage = Math.max(1, q.getPageable().getPageNumber() - 4);
         int endPage = Math.min(q.getTotalPages(), q.getPageable().getPageNumber() + 4);
 
@@ -50,7 +50,7 @@ public class HomeController {
 
     @GetMapping("/board/detail")
     public String answ(@RequestParam Integer id, Model model) {  //pageable 추가, id영역에 answer_id를 넣어야 할 것 같음
-        question q = (question) questionService.getDetail(id);
+        Question q = (Question) questionService.getDetail(id);
         model.addAttribute("detail",q);
     return "answerdetail";
     }
@@ -58,9 +58,9 @@ public class HomeController {
     @GetMapping("/board/question")
     public String ques(Model model, @RequestParam(required = false) Integer id) {
         if(id == null){
-            model.addAttribute("ques", new question());
+            model.addAttribute("ques", new Question());
         } else {
-            question ques = questionRepository.findById(id).orElse(null);
+            Question ques = questionRepository.findById(id).orElse(null);
             model.addAttribute("ques", ques);
         }
         return "questiondetail";
@@ -98,11 +98,6 @@ public class HomeController {
         return ResponseEntity.ok().body(responseDto);
     }
 
-    @GetMapping("/user/login")
-    public String login() {
-        return "login";
-    }
-
 //    질문수정
     @PutMapping("/board/question")  // id로 response를 받아서, 내용 수정한 데이터를 modify함수로 덮고, 저장하라고 보내기(RequestSaveDto)
     public ResponseEntity<QuestionResponseDto> questionModifySubmit(@RequestParam ("id") Integer id, QuestionResponseDto questionResponseDto, QuestionSaveRequestDto questionSaveRequestDto) {  //넘어오긴 했음. 그럼 fetch 정상작동
@@ -117,6 +112,10 @@ public class HomeController {
         return ResponseEntity.ok().body(answerResponseDto);
     }
 
+    @GetMapping("/user/login")
+    public String login() {
+        return "login";
+    }
 
 
 

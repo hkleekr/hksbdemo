@@ -1,9 +1,9 @@
 package com.example.hksbdemo.service.question;
 
-import com.example.hksbdemo.domain.question.QuestionResponseDto;
-import com.example.hksbdemo.domain.question.question;
+import com.example.hksbdemo.domain.QuestionResponseDto;
+import com.example.hksbdemo.domain.Question;
 import com.example.hksbdemo.repository.questionRepository;
-import com.example.hksbdemo.domain.question.QuestionSaveRequestDto;
+import com.example.hksbdemo.domain.QuestionSaveRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,8 +30,8 @@ public class QuestionService {
 
     @Transactional
     public void update(Integer id, QuestionSaveRequestDto requestDto, QuestionResponseDto responseDto) {
-        Optional <question> oq = questionRepository.findById(id);
-        question q = oq.get();
+        Optional <Question> oq = questionRepository.findById(id);
+        Question q = oq.get();
         q.setContent(requestDto.getContent());
         q.setSubject(requestDto.getSubject());
         q.setModify_date(LocalDateTime.now());
@@ -54,7 +54,7 @@ public class QuestionService {
 
     @Transactional
     public Object getDetail(Integer id) {
-        Optional<question> qd = questionRepository.findById(id);
+        Optional<Question> qd = questionRepository.findById(id);
         return qd.get();
     }
 }

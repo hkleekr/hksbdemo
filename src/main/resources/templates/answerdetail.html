@@ -94,39 +94,37 @@
             })
 
             // 답변 수정
-            document.getElementsByClassName("answer_list")[0].addEventListener("click", (e) => {
+            document.getElementsByClassName("answer_list")[0].addEventListener("click", (e) => { // 답변 수정과 삭제를 한 부모 아래의 자식으로 세팅해서
+                if (e.target.id == "btnAnswerModify") {                                              // 수정버튼을 누르면
+                    let params = new FormData;                                                       // params라는 새로운 FormData의 객체를 생성
+                    params.append("id", e.target.getAttribute("answer_id"))                          // answer의 id 호출
+                    params.append("content", e.target.parentElement.parentElement.firstElementChild.firstElementChild.value)  // 버튼의 부모요소의 부모요소의 첫째자식의 첫째자식의 값을 가져오시오!
 
-//                 // "answerBtn" 클릭 이벤트 발생 시,
-                if(e.target.id=="btnAnswerModify"){     // e.target, 여기서는 "답변수정" 버튼
-                let params = new FormData;                                        // params라는 새로운 FormData의 객체를 생성
-                params.append("id", e.target.getAttribute("answer_id"))        // answer의 id
-                params.append("content",e.target.parentElement.parentElement.firstElementChild.firstElementChild.value)    // 버튼의 부모요소의 부모요소의 첫째자식의 첫째자식의 값을 가져오시오!
-                // params.append("id","[[${param.id}]]")  // id는 id
-
-                fetch("/board/detail", {    // "/board/question" 를 서버에 전달
-                    method: "PUT",          // PUT 메소드
-                    body: params,            // params를 (->위에서 만든 FormData 형식을 전달, 약간 포스트맨의 json 형식으로 요청하는 모양새..)
-                    headers: {}             // header는 공백
-                })
-                    .then((response) => {    // 그 다음에
-                        if (response.ok) {   // 저장이 완료(ok)되면,
-                            return response.json()  // 응답을 json으로 줘라
-                        }
+                    fetch("/board/detail", {    // "/board/question" 를 서버에 전달
+                        method: "PUT",          // PUT 메소드
+                        body: params,            // params를 (->위에서 만든 FormData 형식을 전달, 약간 포스트맨의 json 형식으로 요청하는 모양새..)
+                        headers: {}             // header는 공백
                     })
-                    //콜백함수                // 다른 코드의 인수로서 넘겨주는 실행 가능한 코드, 위의 작업이 완료된 후 수행하라고
-                    .then((res) => {                     // 위에서 넘어온 "response.json"을 인자로 받고
-                        console.log(res.responseCode); // "responseCode"를 콘솔에 출력 (-> AnswerResponseDto.java에 멤버변수로 들어가 있음
-                        if (res.responseCode === "성공") { // 성공이라면,
-                            alert("수정성공");                // "등록성공" 알림을 실행
-                            window.location.reload();        // 페이지 새로고침
-                        }
-                    })
+                        .then((response) => {    // 그 다음에
+                            if (response.ok) {   // 저장이 완료(ok)되면,
+                                return response.json()  // 응답을 json으로 줘라
+                            }
+                        })
+                        //콜백함수                // 다른 코드의 인수로서 넘겨주는 실행 가능한 코드, 위의 작업이 완료된 후 수행하라고
+                        .then((res) => {                     // 위에서 넘어온 "response.json"을 인자로 받고
+                            console.log(res.responseCode); // "responseCode"를 콘솔에 출력 (-> AnswerResponseDto.java에 멤버변수로 들어가 있음
+                            if (res.responseCode === "성공") { // 성공이라면,
+                                alert("수정성공");                // "등록성공" 알림을 실행
+                                window.location.reload();        // 페이지 새로고침
+                            }
+                        })
 
-                    .catch((error) => alert(error))     // 클릭이벤트 실행 중에 에러가 발생하면, 에러발생 알림창을 제시
+                        .catch((error) => alert(error))     // 클릭이벤트 실행 중에 에러가 발생하면, 에러발생 알림창을 제시
                     // 답변삭제
-                }else if(e.target.id=="btnAnswerDelete"){
+                } else if (e.target.id == "btnAnswerDelete") {
                     let params = new FormData;
                     params.append("id", e.target.getAttribute("answer_id"))
+
                     fetch("/board/detail", {
                         method: "DELETE",
                         body: params,
@@ -149,8 +147,6 @@
                         .catch((error) => alert(error))
                 }
             })
-
-
         })
     </script>
 </head>
@@ -166,7 +162,7 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">Login</a>
+                    <a class="nav-link active" aria-current="page" href="/login">Login</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page" href="#">Sign Up</a>
@@ -227,12 +223,13 @@
         <h3 class="border-bottom py-2"><span th:text="${detail.answerList.size()} + '개의 답변이 있습니다.'"></span></h3>
         <div class="answer_list">
             <th:block th:each="answer : ${detail.answerList}">
-
+<!--                답변은 'question.java'의 "answerList와 연결되어있는데, @GetMapping("/board/detail")에서 attributeName을 "detail"로 정의-->
                 <div class="card border-success mb-3">
                     <div class="card-body text-success">
                         <p class="card-text">
                             <textarea class="col-md-1 form-control" id="commentContents"
                                       th:text="${answer.content}"></textarea>
+<!--                            "detail"의 리스트 안을 loop 도는 친구가 answer인데(227줄), answer의 content를 제시해라-->
                         </p>
                         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                             <button type="button" class="btn btn-outline-primary me-md-2" th:answer_id="${answer.id}"

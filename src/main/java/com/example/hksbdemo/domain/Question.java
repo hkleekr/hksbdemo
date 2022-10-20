@@ -1,6 +1,6 @@
-package com.example.hksbdemo.domain.question;
+package com.example.hksbdemo.domain;
 
-import com.example.hksbdemo.domain.answer.answer;
+import com.example.hksbdemo.domain.site_user.SiteUser;
 import com.sun.istack.NotNull;
 import lombok.*;
 
@@ -12,7 +12,7 @@ import java.util.List;
 @Getter
 @Setter
 @Entity(name = "question")
-public class question {
+public class Question {
     @Override
     public String toString() {
         return "question{" +
@@ -46,14 +46,14 @@ public class question {
 
     @ManyToOne
     @JoinColumn(name = "author_id")
-    private com.example.hksbdemo.domain.site_user.site_user site_user;
+    private SiteUser site_user;
 
     @OneToMany (mappedBy = "question", cascade = CascadeType.REMOVE) // cascade => answer도 함께 저장
 //    @OrderBy("id asc")  // 댓글 정렬 10/17 추가
-    private List<answer> answerList;  // 이 항목을 추가함으로써 answer와 연결
+    private List<Answer> answerList;  // 이 항목을 추가함으로써 answer와 연결
 
     @Builder
-    public question(String content, LocalDateTime create_date, LocalDateTime modify_date, String subject, com.example.hksbdemo.domain.site_user.site_user site_user) {
+    public Question(String content, LocalDateTime create_date, LocalDateTime modify_date, String subject, SiteUser site_user) {
         this.content = content;
         this.create_date = create_date;
         this.modify_date = modify_date;

@@ -1,5 +1,6 @@
-package com.example.hksbdemo.domain.question;
+package com.example.hksbdemo.domain;
 
+import com.example.hksbdemo.domain.site_user.SiteUser;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,11 +15,11 @@ public class QuestionSaveRequestDto {
     private LocalDateTime create_date;
     private LocalDateTime modify_date;
     private String subject;
-    private com.example.hksbdemo.domain.site_user.site_user site_user;
+    private SiteUser site_user;
 
     @Builder
 
-    public QuestionSaveRequestDto(String content, LocalDateTime create_date, LocalDateTime modify_date, String subject, com.example.hksbdemo.domain.site_user.site_user site_user) {
+    public QuestionSaveRequestDto(String content, LocalDateTime create_date, LocalDateTime modify_date, String subject, SiteUser site_user) {
         this.content = content;
         this.create_date = create_date;
         this.modify_date = modify_date;
@@ -27,8 +28,8 @@ public class QuestionSaveRequestDto {
     }
 
     // Dto에서 필요한 부분을 entity화 시킴
-    public question toEntity() {
-        return question.builder()
+    public Question toEntity() {
+        return Question.builder()
                 .content(content)
                 .create_date(create_date)
                 .modify_date(modify_date)

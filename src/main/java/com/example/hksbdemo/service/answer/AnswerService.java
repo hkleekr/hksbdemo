@@ -1,9 +1,9 @@
 package com.example.hksbdemo.service.answer;
 
-import com.example.hksbdemo.domain.answer.AnswerResponseDto;
-import com.example.hksbdemo.domain.answer.answer;
+import com.example.hksbdemo.domain.AnswerResponseDto;
+import com.example.hksbdemo.domain.Answer;
 import com.example.hksbdemo.repository.answerRepository;
-import com.example.hksbdemo.domain.answer.AnswerSaveRequestDto;
+import com.example.hksbdemo.domain.AnswerSaveRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,8 +30,8 @@ public class AnswerService {
 
     @Transactional
     public void update(Integer id, AnswerSaveRequestDto requestDto, AnswerResponseDto responseDto) {
-        Optional<answer> oa = answerRepository.findById(id);
-        answer a = oa.get();
+        Optional<Answer> oa = answerRepository.findById(id);
+        Answer a = oa.get();
         a.setContent(requestDto.getContent());
         a.setModify_date(LocalDateTime.now());
         answerRepository.save(a);         // save 해주어야 함

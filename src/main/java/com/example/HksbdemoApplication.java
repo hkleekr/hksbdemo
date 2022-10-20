@@ -9,9 +9,8 @@ import org.springframework.web.bind.annotation.*;
 
 public class HksbdemoApplication {
 
-		public static void main(String[] args) {
-		SpringApplication.run(HksbdemoApplication.class, args);
+		public static void main(String[] args) throws Throwable {
+			SpringApplication.run(HksbdemoApplication.class, args);
 	}
-
 }
 
