@@ -65,6 +65,7 @@ public class question {
     void create_date() {
         this.create_date = this.create_date = LocalDateTime.now();
     }
+//    @PrePersist Modify_date에도 썼더니 에러발생
     void modify_date() {
         this.modify_date = this.modify_date = LocalDateTime.now();
     }

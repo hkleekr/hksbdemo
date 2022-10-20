@@ -10,54 +10,54 @@
     <script>
         // 댓글등록
         document.addEventListener("DOMContentLoaded", () => {              // html document를 다 읽고 이벤트 호출, 페이지에 1번만 적으면 되는 부분
-            document.getElementById("answerBtn").addEventListener("click",()=>{  // "answerBtn" 클릭 이벤트 발생 시,
+            document.getElementById("answerBtn").addEventListener("click", () => {  // "answerBtn" 클릭 이벤트 발생 시,
                 let params = new FormData;                                        // params라는 새로운 FormData의 객체를 생성
-                params.append("content",document.getElementById("answerContent").value) //param에 "answerContent" id에서 적은 값(value)을 "content"에 append 하시오
-                params.append("question","[[${param.id}]]")   // 그리고,  "question"에 "param.id"를 append 하시오
+                params.append("content", document.getElementById("answerContent").value) //param에 "answerContent" id에서 적은 값(value)을 "content"에 append 하시오
+                params.append("question", "[[${param.id}]]")   // 그리고,  "question"에 "param.id"를 append 하시오
 
-            fetch("/board/detail", {    // "/question/answ" 를 서버에 전달
-                method: "POST",          // POST 메소드
-                body: params,            // params를 (->위에서 만든 FormData 형식을 전달, 약간 포스트맨의 json 형식으로 요청하는 모양새..)
-                headers : {}             // header는 공백
-            })
-                .then((response) => {    // 그 다음에
-                    if (response.ok) {   // 저장이 완료(ok)되면,
-                        return response.json()  // 응답을 json으로 줘라
-                    }
+                fetch("/board/detail", {    // "/question/answ" 를 서버에 전달
+                    method: "POST",          // POST 메소드
+                    body: params,            // params를 (->위에서 만든 FormData 형식을 전달, 약간 포스트맨의 json 형식으로 요청하는 모양새..)
+                    headers: {}             // header는 공백
                 })
-                //콜백함수                // 다른 코드의 인수로서 넘겨주는 실행 가능한 코드, 위의 작업이 완료된 후 수행하라고
-                .then((res)=>{                     // 위에서 넘어온 "response.json"을 인자로 받고
-                    console.log(res.responseCode); // "responseCode"를 콘솔에 출력 (-> AnswerResponseDto.java에 멤버변수로 들어가 있음
-                    if(res.responseCode === "성공"){ // 성공이라면,
-                    alert("등록성공");                // "등록성공" 알림을 실행
-                    window.location.reload();        // 페이지 새로고침
-                    }
-                })
+                    .then((response) => {    // 그 다음에
+                        if (response.ok) {   // 저장이 완료(ok)되면,
+                            return response.json()  // 응답을 json으로 줘라
+                        }
+                    })
+                    //콜백함수                // 다른 코드의 인수로서 넘겨주는 실행 가능한 코드, 위의 작업이 완료된 후 수행하라고
+                    .then((res) => {                     // 위에서 넘어온 "response.json"을 인자로 받고
+                        console.log(res.responseCode); // "responseCode"를 콘솔에 출력 (-> AnswerResponseDto.java에 멤버변수로 들어가 있음
+                        if (res.responseCode === "성공") { // 성공이라면,
+                            alert("등록성공");                // "등록성공" 알림을 실행
+                            window.location.reload();        // 페이지 새로고침
+                        }
+                    })
 
-                .catch((error) => alert(error))     // 클릭이벤트 실행 중에 에러가 발생하면, 에러발생 알림창을 제시
+                    .catch((error) => alert(error))     // 클릭이벤트 실행 중에 에러가 발생하면, 에러발생 알림창을 제시
             })
 
             // 질문 수정
-            document.getElementById("btnQuestionModify").addEventListener("click",()=>{  // "answerBtn" 클릭 이벤트 발생 시,
+            document.getElementById("btnQuestionModify").addEventListener("click", () => {  // "answerBtn" 클릭 이벤트 발생 시,
                 let params = new FormData;                                        // params라는 새로운 FormData의 객체를 생성
-                params.append("content",document.getElementById("questionContentModify").value) //param에 "questionContentModify" id에서 적은 값(value)을 "content"에 append 하시오
-                params.append("id","[[${param.id}]]")  // id는 id
-                params.append("subject",document.getElementById("questionTitle").innerText)  // 왜 undefined로 잡히는거니? innerText??
+                params.append("content", document.getElementById("questionContentModify").value) //param에 "questionContentModify" id에서 적은 값(value)을 "content"에 append 하시오
+                params.append("id", "[[${param.id}]]")  // id는 id
+                params.append("subject", document.getElementById("questionTitle").innerText)  // 왜 undefined로 잡히는거니? innerText??
 
                 fetch("/board/question", {
                     method: "PUT",
                     body: params,
-                    headers : {}
+                    headers: {}
                 })
                     .then((response) => {
-                        if (response.ok) {   ,
+                        if (response.ok) {
                             return response.json()
                         }
                     })
                     //콜백함수
-                    .then((res)=>{
+                    .then((res) => {
                         console.log(res.responseCode);
-                        if(res.responseCode === "성공"){
+                        if (res.responseCode === "성공") {
                             alert("수정성공");
                             window.location.reload();
                         }
@@ -67,14 +67,14 @@
             })
 
             //질문삭제
-            document.getElementById("btnQuestionDelete").addEventListener("click",()=>{
+            document.getElementById("btnQuestionDelete").addEventListener("click", () => {
                 let params = new FormData;
-                params.append("id","[[${param.id}]]")
+                params.append("id", "[[${param.id}]]")
 
                 fetch("/board/question", {
-                    method: "DELETE" ,
+                    method: "DELETE",
                     body: params,
-                    headers : {}
+                    headers: {}
                 })
                     .then((response) => {
                         if (response.ok) {
@@ -82,9 +82,9 @@
                         }
                     })
                     //콜백함수
-                    .then((res)=>{
+                    .then((res) => {
                         console.log(res.responseCode);
-                        if(res.responseCode === "삭제성공"){
+                        if (res.responseCode === "삭제성공") {
                             alert("삭제성공");
                             window.location.href = "/board";
                         }
@@ -94,17 +94,19 @@
             })
 
             // 답변 수정
-            document.getElementById("btnAnswerModify").addEventListener("click",(e)=>{  // "answerBtn" 클릭 이벤트 발생 시,
+            document.getElementsByClassName("answer_list")[0].addEventListener("click", (e) => {
+
+//                 // "answerBtn" 클릭 이벤트 발생 시,
+                if(e.target.id=="btnAnswerModify"){     // e.target, 여기서는 "답변수정" 버튼
                 let params = new FormData;                                        // params라는 새로운 FormData의 객체를 생성
                 params.append("id", e.target.getAttribute("answer_id"))        // answer의 id
-                params.append("content",document.getElementById("commentContents").value) //param에 "commentContents" id에서 적은 값(value)을 "content"에 append 하시오
-                params.append("question","[[${param.id}]]")         // question의 id
+                params.append("content",e.target.parentElement.parentElement.firstElementChild.firstElementChild.value)    // 버튼의 부모요소의 부모요소의 첫째자식의 첫째자식의 값을 가져오시오!
                 // params.append("id","[[${param.id}]]")  // id는 id
 
                 fetch("/board/detail", {    // "/board/question" 를 서버에 전달
                     method: "PUT",          // PUT 메소드
                     body: params,            // params를 (->위에서 만든 FormData 형식을 전달, 약간 포스트맨의 json 형식으로 요청하는 모양새..)
-                    headers : {}             // header는 공백
+                    headers: {}             // header는 공백
                 })
                     .then((response) => {    // 그 다음에
                         if (response.ok) {   // 저장이 완료(ok)되면,
@@ -112,44 +114,44 @@
                         }
                     })
                     //콜백함수                // 다른 코드의 인수로서 넘겨주는 실행 가능한 코드, 위의 작업이 완료된 후 수행하라고
-                    .then((res)=>{                     // 위에서 넘어온 "response.json"을 인자로 받고
+                    .then((res) => {                     // 위에서 넘어온 "response.json"을 인자로 받고
                         console.log(res.responseCode); // "responseCode"를 콘솔에 출력 (-> AnswerResponseDto.java에 멤버변수로 들어가 있음
-                        if(res.responseCode === "성공"){ // 성공이라면,
+                        if (res.responseCode === "성공") { // 성공이라면,
                             alert("수정성공");                // "등록성공" 알림을 실행
                             window.location.reload();        // 페이지 새로고침
                         }
                     })
 
                     .catch((error) => alert(error))     // 클릭이벤트 실행 중에 에러가 발생하면, 에러발생 알림창을 제시
+                    // 답변삭제
+                }else if(e.target.id=="btnAnswerDelete"){
+                    let params = new FormData;
+                    params.append("id", e.target.getAttribute("answer_id"))
+                    fetch("/board/detail", {
+                        method: "DELETE",
+                        body: params,
+                        headers: {}
+                    })
+                        .then((response) => {
+                            if (response.ok) {
+                                return response.json()
+                            }
+                        })
+                        //콜백함수
+                        .then((res) => {
+                            console.log(res.responseCode);
+                            if (res.responseCode === "삭제성공") {
+                                alert("삭제성공");
+                                window.location.reload();
+                            }
+                        })
+
+                        .catch((error) => alert(error))
+                }
             })
 
-            // 답변삭제
-            document.getElementById("btnAnswerDelete").addEventListener("click",(e)=>{
-                let params = new FormData;
-                params.append("id", e.target.getAttribute("answer_id"))
-                fetch("/board/detail", {
-                    method: "DELETE" ,
-                    body: params,
-                    headers : {}
-                })
-                    .then((response) => {
-                        if (response.ok) {
-                            return response.json()
-                        }
-                    })
-                    //콜백함수
-                    .then((res)=>{
-                        console.log(res.responseCode);
-                        if(res.responseCode === "삭제성공"){
-                            alert("삭제성공");
-                            window.location.reload();
-                        }
-                    })
 
-                    .catch((error) => alert(error))
-            })
-
-    })
+        })
     </script>
 </head>
 <body>
@@ -176,12 +178,13 @@
 <!--질문 영역    -->
 <div class="container my-3">
     <form action="#">
-<!--        <input type="hidden">-->
-        <h2 id="questionTitle"  class="border-bottom py-2" type="input" th:text="${detail.subject}"></h2>
+        <!--        <input type="hidden">-->
+        <h2 id="questionTitle" class="border-bottom py-2" type="input" th:text="${detail.subject}"></h2>
         <div class="card border-success mb-3">
             <div class="card-body text-success">
                 <p class="card-text">
-                    <textarea id="questionContentModify" class="col-md-1 form-control" style="height:150px;" th:text="${detail.content}"></textarea>
+                    <textarea id="questionContentModify" class="col-md-1 form-control" style="height:150px;"
+                              th:text="${detail.content}"></textarea>
                 </p>
                 <!--    글쓴이-->
                 <div class="d-flex justify-content-end">
@@ -190,14 +193,17 @@
                     </div>
                 </div>
                 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                    <input class="btn btn-outline-primary me-md-2" type="button" id="btnQuestionModify" value="질문수정"></input>
-                    <input class="btn btn-outline-danger me-md-2" type="button" id="btnQuestionDelete" value="질문삭제"></input>
+                    <input class="btn btn-outline-primary me-md-2" type="button" id="btnQuestionModify"
+                           value="질문수정"></input>
+                    <input class="btn btn-outline-danger me-md-2" type="button" id="btnQuestionDelete"
+                           value="질문삭제"></input>
                 </div>
             </div>
         </div>
         <!--        추천-->
         <div class="my-3">
-            <a href="javascript:void(0);" class="recommend btn btn-sm btn-outline-secondary" data-uri="/question/vote/2">
+            <a href="javascript:void(0);" class="recommend btn btn-sm btn-outline-secondary"
+               data-uri="/question/vote/2">
                 추천
                 <span class="badge rounded-pill bg-success">1</span>
             </a>
@@ -215,26 +221,33 @@
                 <input type="button" class="btn btn-primary" id="answerBtn" value="답변등록">
             </div>
         </div>
-
+    </form>
     <!--답변제시영역-->
     <form>
-        <h3 class="border-bottom py-2"><span>개의 답변이 있습니다</span></h3>
-        <th:block th:each="answer : ${detail.answerList}">
-        <div class="card border-success mb-3">
-            <div class="card-body text-success">
-                <p class="card-text">
-                    <textarea class="col-md-1 form-control" id="commentContents" th:text="${answer.content}"></textarea>
-                </p>
-                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                    <button class="btn btn-outline-primary me-md-2" id="btnAnswerModify">답변수정</button>
-                    <input class="btn btn-outline-danger me-md-2" th:answer_id="${answer.id}" type="button" id="btnAnswerDelete" value="답변삭제" ></input> <!--th:href="@{/question/answ}" 불필요하다고 판단, 제거했음 10/19-->
+        <h3 class="border-bottom py-2"><span th:text="${detail.answerList.size()} + '개의 답변이 있습니다.'"></span></h3>
+        <div class="answer_list">
+            <th:block th:each="answer : ${detail.answerList}">
+
+                <div class="card border-success mb-3">
+                    <div class="card-body text-success">
+                        <p class="card-text">
+                            <textarea class="col-md-1 form-control" id="commentContents"
+                                      th:text="${answer.content}"></textarea>
+                        </p>
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <button type="button" class="btn btn-outline-primary me-md-2" th:answer_id="${answer.id}"
+                                    id="btnAnswerModify">답변수정
+                            </button>
+                            <input class="btn btn-outline-danger me-md-2" th:answer_id="${answer.id}" type="button"
+                                   id="btnAnswerDelete" value="답변삭제"></input>
+                            <!--th:href="@{/question/answ}" 불필요하다고 판단, 제거했음 10/19-->
+                        </div>
+                    </div>
                 </div>
-            </div>
+            </th:block>
         </div>
-        </th:block>
     </form>
 </div>
-
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
         crossorigin="anonymous"></script>

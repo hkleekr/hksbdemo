@@ -34,6 +34,8 @@ public class QuestionService {
         question q = oq.get();
         q.setContent(requestDto.getContent());
         q.setSubject(requestDto.getSubject());
+        q.setModify_date(LocalDateTime.now());
+        questionRepository.save(q);         // save 해주어야 함
         String result = "";
         boolean modifyQuestion = questionRepository.existsById(id);
         if(modifyQuestion == true) {
@@ -42,7 +44,7 @@ public class QuestionService {
         responseDto.setResponseCode(result);
     }
 
-
+    @Transactional
     public void delete(Integer id, QuestionResponseDto responseDto) {
         questionRepository.deleteById(id);
         if(questionRepository.existsById(id) == false) {
@@ -50,6 +52,7 @@ public class QuestionService {
         }
     }
 
+    @Transactional
     public Object getDetail(Integer id) {
         Optional<question> qd = questionRepository.findById(id);
         return qd.get();

@@ -11,4 +11,3 @@ public interface answerRepository extends JpaRepository<answer, Integer> {
 
 }
 
-//Long 맞나 확인 필요함

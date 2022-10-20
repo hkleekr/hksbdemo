@@ -29,7 +29,6 @@ public class AnswerSaveRequestDto {
     // Dto에서 필요한 부분을 entity화 시킴
     public answer toEntity() {
         return answer.builder()
-//                .id(id)                 // 이게 필요한데 빨간줄이 안없어짐, 필요없는 항목인가??
                 .content(content)
                 .create_date(create_date)
                 .modify_date(modify_date)

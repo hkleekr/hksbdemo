@@ -28,14 +28,15 @@ public class AnswerService {
         responseDTO.setResponseCode(result);
         }
 
+    @Transactional
     public void update(Integer id, AnswerSaveRequestDto requestDto, AnswerResponseDto responseDto) {
         Optional<answer> oa = answerRepository.findById(id);
         answer a = oa.get();
         a.setContent(requestDto.getContent());
         a.setModify_date(LocalDateTime.now());
-//        return answerRepository.save(a).getId();
+        answerRepository.save(a);         // save 해주어야 함
         String result = "";
-        boolean modifyAnswer = answerRepository.existsById(id); // 수정시간이 다르면 성공** 체크해 볼 것
+        boolean modifyAnswer = answerRepository.existsById(id);
         if(modifyAnswer == true) {
             result = "성공";
         }
@@ -43,18 +44,11 @@ public class AnswerService {
 
     }
 
-    //    만들긴 했는데,, 맞나?
+    @Transactional
     public void delete(Integer id, AnswerResponseDto responseDto) {
         answerRepository.deleteById(id);
         if(answerRepository.existsById(id) == false) {
             responseDto.setResponseCode("삭제성공");
         }
     }
-
- /*   public Integer findAnswerId(Integer question_id, AnswerResponseDto responseDto) {
-        answerRepository.findById(question_id);
-        return answerRepository.getId();  // 답변의 id를 데려오고 싶은데...빨간색이네..
-    }*/
-
-
 }
