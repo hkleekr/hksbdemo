@@ -9,6 +9,8 @@ public interface SiteUserRepository extends JpaRepository <SiteUser, Long>{
     SiteUser findById(String id);
 
     SiteUser findByusername(String username);
+
 }
+
 
 //Long 맞나 확인 필요함

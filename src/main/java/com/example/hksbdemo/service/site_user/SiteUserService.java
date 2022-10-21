@@ -48,6 +48,14 @@ public class SiteUserService {
     }
 
     @Transactional
+    public void delete(String username, SiteUserResponseDto siteUserResponseDto) {
+        Optional<SiteUser> su = Optional.ofNullable(siteUserRepository.findByusername(username));
+        if(su.isPresent())
+            siteUserRepository.delete(su.get());
+        siteUserResponseDto.setResponseCode("성공");
+        }
+
+    @Transactional
     public Object getDetail(String username) {
         Optional<SiteUser> sd = Optional.ofNullable(siteUserRepository.findById(username));
         return  sd.get();

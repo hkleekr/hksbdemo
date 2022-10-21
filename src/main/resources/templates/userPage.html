@@ -24,6 +24,9 @@
         <li class="nav-item">
           <a class="nav-link active" aria-current="page" href="/user/signup">Sign Up</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="/user/mypage">My Page</a>
+        </li>
       </ul>
     </div>
   </div>
@@ -32,43 +35,70 @@
 <div layout:fragment="content" class="container my-3">
   <div class="my-3 border-bottom">
     <div>
-      <h4>회원가입</h4>
+      <h4>회원정보</h4>
     </div>
   </div>
   <form th:action="@{/user/signup}" th:object="${userCreateForm}" method="post">
     <div class="mb-3">
       <span>사용자 ID: </span>
+<!--      로그인과 연결하면 readonly 옵션 추가할 것(그런 것이 있다면,,)-->
       <input id="writeUsername" type="text" class="form-control">
     </div>
     <div class="mb-3">
       <span>비밀번호: </span>
       <input id="writePassword1" type="password" class="form-control">
     </div>
-<!--    <div class="mb-3">-->
-<!--      <span>비밀번호 확인: </span>-->
-<!--      <input id="writePassword2" type="password" class="form-control">-->
-<!--    </div>-->
+    <!--    <div class="mb-3">-->
+    <!--      <span>비밀번호 확인: </span>-->
+    <!--      <input id="writePassword2" type="password" class="form-control">-->
+    <!--    </div>-->
     <div class="mb-3">
       <span>이메일: </span>
       <input id="writeEmail" type="email" class="form-control">
     </div>
-    <input id="btnUserRegistration" class="btn btn-primary" type="button" value="회원가입">
     <input id="btnUserModify" class="btn btn-outline-primary me-md-2" type="button" value="회원정보수정">
     <input id="btnUserDelete" class="btn btn-outline-danger me-md-2" type="button" value="회원탈퇴">
   </form>
 </div>
 <script>
   document.addEventListener("DOMContentLoaded", () => {
+    // 회원가입
+    // document.getElementById("btnUserRegistration").addEventListener("click",()=>{
+    //   let params = new FormData;
+    //   params.append("username",document.getElementById("writeUsername").value)
+    //   params.append("password",document.getElementById("writePassword1").value)
+    //   params.append("email",document.getElementById("writeEmail").value)
+    //
+    //   fetch("/user/signup", {
+    //     method: "POST",
+    //     body: params,
+    //     headers : {}
+    //   })
+    //           .then((response) => {
+    //             if (response.ok) {
+    //               return response.json()
+    //             }
+    //           })
+    //           //콜백함수
+    //           .then((res)=>{
+    //             console.log(res.responseCode);
+    //             if(res.responseCode === "성공"){
+    //               alert("등록성공");
+    //               window.location.href = "/board"
+    //             }
+    //           })
+    //
+    //           .catch((error) => alert(error))     // 클릭이벤트 실행 중에 에러가 발생하면, 에러발생 알림창을 제시
+    // })
 
-    //회원정보수정
+    // 회원정보수정
     document.getElementById("btnUserModify").addEventListener("click",()=>{
       let params = new FormData;
-      // params.append("id", "[[${param.id}]]")
-      // params.append("username", document.getElementById("writeUsername").value)
-      params.append("password", document.getElementById("writePassword1").value)
-      params.append("email", document.getElementById("writeEmail").value)
+      params.append("username",document.getElementById("writeUsername").value)
+      params.append("password",document.getElementById("writePassword1").value)
+      params.append("email",document.getElementById("writeEmail").value)
 
-      fetch("/user/signup", {
+      fetch("/user/mypage", {
         method: "PUT",
         body: params,
         headers : {}
@@ -82,7 +112,34 @@
               .then((res)=>{
                 console.log(res.responseCode);
                 if(res.responseCode === "성공"){
-                  alert("등록성공");
+                  alert("수정성공");
+                  window.location.href = "/board"
+                }
+              })
+
+              .catch((error) => alert(error))     // 클릭이벤트 실행 중에 에러가 발생하면, 에러발생 알림창을 제시
+    })
+
+    //회원탈퇴
+    document.getElementById("btnUserDelete").addEventListener("click",()=>{
+      let params = new FormData;
+      params.append("username",document.getElementById("writeUsername").value)
+
+      fetch("/user/mypage", {
+        method: "DELETE",
+        body: params,
+        headers : {}
+      })
+              .then((response) => {
+                if (response.ok) {
+                  return response.json()
+                }
+              })
+              //콜백함수
+              .then((res)=>{
+                console.log(res.responseCode);
+                if(res.responseCode === "성공"){
+                  alert("삭제성공");
                   window.location.href = "/board"
                 }
               })

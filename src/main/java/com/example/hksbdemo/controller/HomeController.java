@@ -139,17 +139,24 @@ public class HomeController {
     }
 
     //수정
-    @PutMapping("/user/signup")
+    @PutMapping("/user/mypage")
     public ResponseEntity<SiteUserResponseDto> userModifySubmit(SiteUserSaveRequestDto siteUserSaveRequestDto, SiteUserResponseDto siteUserResponseDto) {
         siteUserService.update(siteUserSaveRequestDto, siteUserResponseDto);
         return ResponseEntity.ok().body(siteUserResponseDto);
     }
 
     //탈퇴
-    @DeleteMapping("/user/signup")
-    public ResponseEntity<SiteUserResponseDto> userDelete(SiteUserSaveRequestDto siteUserSaveRequestDto, SiteUserResponseDto siteUserResponseDto) {
-        siteUserService.update(siteUserSaveRequestDto, siteUserResponseDto);
+    @DeleteMapping("/user/mypage")
+    public ResponseEntity<SiteUserResponseDto> userDelete(@RequestParam("username") String username, SiteUserResponseDto siteUserResponseDto) {
+        siteUserService.delete(username, siteUserResponseDto);
         return ResponseEntity.ok().body(siteUserResponseDto);
+    }
+
+//    마이페이지
+    @GetMapping("/user/mypage")
+    public String callMyPage(@RequestParam(required = false) Long id, Model model) {
+        model.addAttribute("callMyPage", new SiteUser());
+        return "userPage";
     }
 
 //    게시판 추천기능을 위한 코드

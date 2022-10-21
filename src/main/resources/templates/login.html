@@ -1,62 +1,62 @@
-<!doctype html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
-      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Spring Security Example</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
-</head>
-<body>
-<!--네비게이션바-->
-<nav class="navbar navbar-expand-lg bg-light">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="/board">Education</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="/login">Login</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Sign Up</a>
-        </li>
-      </ul>
-    </div>
-  </div>
-</nav>
-<!--로그인 영역  -->
-  <h1>Spring Security Login page</h1>
-  <div th:if="${param.error}">Invalid username and password.</div>
-  <div th:if="${param.logout}">You have been logged out.</div>
-  <div class="container my-3">
-    <form th:action="@{/login}" method="post">
-      <input type="hidden" name="_csrf" value="b57546d7-3e7c-486e-aba4-924e817ad068">
-      <div class="mb-3">
-        <label for="username" class="form-label">User Name :</label>
-        <input type="text" name="username" id="username" class="form-control">
-      </div>
-      <div class="mb-3">
-        <label for="password" class="form-label">Password:</label>
-        <input type="password" name="password" id="password" class="form-control">
-      </div>
-      <input type="submit" class="btn btn-primary" value="Sign In">
-      <input type="button" onclick="local.href='/signUp';" value="Sign Up">
-    </form>
-  </div>
+<!--<!doctype html>-->
+<!--<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"-->
+<!--      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">-->
+<!--<head>-->
+<!--  <meta charset="utf-8">-->
+<!--  <meta name="viewport" content="width=device-width, initial-scale=1">-->
+<!--  <title>Spring Security Example</title>-->
+<!--  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"-->
+<!--        integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">-->
+<!--</head>-->
+<!--<body>-->
+<!--&lt;!&ndash;네비게이션바&ndash;&gt;-->
+<!--<nav class="navbar navbar-expand-lg bg-light">-->
+<!--  <div class="container-fluid">-->
+<!--    <a class="navbar-brand" href="/board">Education</a>-->
+<!--    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"-->
+<!--            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">-->
+<!--      <span class="navbar-toggler-icon"></span>-->
+<!--    </button>-->
+<!--    <div class="collapse navbar-collapse" id="navbarSupportedContent">-->
+<!--      <ul class="navbar-nav me-auto mb-2 mb-lg-0">-->
+<!--        <li class="nav-item">-->
+<!--          <a class="nav-link active" aria-current="page" href="/login">Login</a>-->
+<!--        </li>-->
+<!--        <li class="nav-item">-->
+<!--          <a class="nav-link active" aria-current="page" href="#">Sign Up</a>-->
+<!--        </li>-->
+<!--      </ul>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</nav>-->
+<!--&lt;!&ndash;로그인 영역  &ndash;&gt;-->
+<!--  <h1>Spring Security Login page</h1>-->
+<!--  <div th:if="${param.error}">Invalid username and password.</div>-->
+<!--  <div th:if="${param.logout}">You have been logged out.</div>-->
+<!--  <div class="container my-3">-->
+<!--    <form th:action="@{/login}" method="post">-->
+<!--      <input type="hidden" name="_csrf" value="b57546d7-3e7c-486e-aba4-924e817ad068">-->
+<!--      <div class="mb-3">-->
+<!--        <label for="username" class="form-label">User Name :</label>-->
+<!--        <input type="text" name="username" id="username" class="form-control">-->
+<!--      </div>-->
+<!--      <div class="mb-3">-->
+<!--        <label for="password" class="form-label">Password:</label>-->
+<!--        <input type="password" name="password" id="password" class="form-control">-->
+<!--      </div>-->
+<!--      <input type="submit" class="btn btn-primary" value="Sign In">-->
+<!--      <input type="button" onclick="local.href='/signUp';" value="Sign Up">-->
+<!--    </form>-->
+<!--  </div>-->
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
-        crossorigin="anonymous"></script>
-<!-- 자바스크립트 Start -->
-<script type="text/javascript">
+<!--<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"-->
+<!--        integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"-->
+<!--        crossorigin="anonymous"></script>-->
+<!--&lt;!&ndash; 자바스크립트 Start &ndash;&gt;-->
+<!--<script type="text/javascript">-->
 
-</script>
-<!-- 자바스크립트 End -->
+<!--</script>-->
+<!--&lt;!&ndash; 자바스크립트 End &ndash;&gt;-->
 
-</body>
-</html>
+<!--</body>-->
+<!--</html>-->
