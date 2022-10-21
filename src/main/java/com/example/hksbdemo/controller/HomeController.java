@@ -5,10 +5,15 @@ import com.example.hksbdemo.domain.AnswerSaveRequestDto;
 import com.example.hksbdemo.domain.QuestionResponseDto;
 import com.example.hksbdemo.domain.Question;
 import com.example.hksbdemo.domain.QuestionSaveRequestDto;
+import com.example.hksbdemo.domain.site_user.SiteUser;
+import com.example.hksbdemo.domain.site_user.SiteUserResponseDto;
+import com.example.hksbdemo.domain.site_user.SiteUserSaveRequestDto;
+//import com.example.hksbdemo.domain.site_user.UserCreateForm;
 import com.example.hksbdemo.repository.answerRepository;
 import com.example.hksbdemo.repository.questionRepository;
 import com.example.hksbdemo.service.answer.AnswerService;
 import com.example.hksbdemo.service.question.QuestionService;
+import com.example.hksbdemo.service.site_user.SiteUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -18,7 +23,10 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @RequiredArgsConstructor
 @Controller
@@ -112,9 +120,20 @@ public class HomeController {
         return ResponseEntity.ok().body(answerResponseDto);
     }
 
-    @GetMapping("/user/login")
-    public String login() {
-        return "login";
+    private final SiteUserService siteUserService;
+
+    //**회원**
+    @GetMapping("/user/signup")
+    public String signup(SiteUser siteUser) {
+        return "signup_form";
+    }
+
+    @PostMapping("/user/signup")
+        public ResponseEntity<SiteUserResponseDto> signupSubmit(SiteUserSaveRequestDto siteUserSaveRequestDto) {
+        SiteUserResponseDto siteUserResponseDto = new SiteUserResponseDto();
+        siteUserService.save(siteUserSaveRequestDto, siteUserResponseDto);
+        return ResponseEntity.ok().body(siteUserResponseDto);
+
     }
 
 

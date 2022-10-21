@@ -1,31 +1,30 @@
 package com.example.hksbdemo.service.site_user;
 
-import com.example.hksbdemo.repository.SiteUserRepository;
+import com.example.hksbdemo.domain.site_user.SiteUser;
+import com.example.hksbdemo.domain.site_user.SiteUserResponseDto;
 import com.example.hksbdemo.domain.site_user.SiteUserSaveRequestDto;
+import com.example.hksbdemo.repository.SiteUserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Bean;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-@Service
 @RequiredArgsConstructor
+@Service
 public class SiteUserService {
 
     private final SiteUserRepository siteUserRepository;
-
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
-
-    public void insert(SiteUserSaveRequestDto siteUserSaveRequestDto) {
-        siteUserSaveRequestDto.setPassword(bCryptPasswordEncoder.encode(siteUserSaveRequestDto.getPassword()));
-        siteUserRepository.save(siteUserSaveRequestDto.toEntity());
-    }
-
-    @Bean // 만든 이유: ErrorMessage => Consider defining a bean of type 'org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder' in your configuration.
-    public BCryptPasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+    private final PasswordEncoder passwordEncoder;
 
     @Transactional
-    public Long save(SiteUserSaveRequestDto requestDto) { return siteUserRepository.save(requestDto.toEntity()).getId();}
+    public void save(SiteUserSaveRequestDto requestDto, SiteUserResponseDto responseDto) {
+        Long getId = siteUserRepository.save(requestDto.toEntity()).getId();
+        String result = "";
+        boolean su = siteUserRepository.existsById(getId);
+        if(su == true) {
+            result = "성공";
+        }
+        responseDto.setResponseCode(result);
+    }
+
 }
