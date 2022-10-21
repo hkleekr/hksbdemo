@@ -59,44 +59,17 @@
 </div>
 <script>
   document.addEventListener("DOMContentLoaded", () => {
-    // 회원가입
-    document.getElementById("btnUserRegistration").addEventListener("click",()=>{
-      let params = new FormData;
-      params.append("username",document.getElementById("writeUsername").value)
-      params.append("password",document.getElementById("writePassword1").value)
-      params.append("email",document.getElementById("writeEmail").value)
 
-      fetch("/user/signup", {
-        method: "POST",
-        body: params,
-        headers : {}
-      })
-              .then((response) => {
-                if (response.ok) {
-                  return response.json()
-                }
-              })
-              //콜백함수
-              .then((res)=>{
-                console.log(res.responseCode);
-                if(res.responseCode === "성공"){
-                  alert("등록성공");
-                  window.location.href = "/board"
-                }
-              })
-
-              .catch((error) => alert(error))     // 클릭이벤트 실행 중에 에러가 발생하면, 에러발생 알림창을 제시
-    })
-
-    // 수정버튼 누른다
+    //회원정보수정
     document.getElementById("btnUserModify").addEventListener("click",()=>{
       let params = new FormData;
-      params.append("username",document.getElementById("writeUsername").value)
-      params.append("password",document.getElementById("writePassword1").value)
-      params.append("email",document.getElementById("writeEmail").value)
+      // params.append("id", "[[${param.id}]]")
+      // params.append("username", document.getElementById("writeUsername").value)
+      params.append("password", document.getElementById("writePassword1").value)
+      params.append("email", document.getElementById("writeEmail").value)
 
       fetch("/user/signup", {
-        method: "put",
+        method: "PUT",
         body: params,
         headers : {}
       })
@@ -116,36 +89,6 @@
 
               .catch((error) => alert(error))     // 클릭이벤트 실행 중에 에러가 발생하면, 에러발생 알림창을 제시
     })
-
-    // //회원정보수정
-    // document.getElementById("btnUserModify").addEventListener("click",()=>{
-    //   let params = new FormData;
-    //   // params.append("id", "[[${param.id}]]")
-    //   params.append("username", document.getElementById("writeUsername").value)
-    //   params.append("password", document.getElementById("writePassword1").value)
-    //   params.append("email", document.getElementById("writeEmail").value)
-    //
-    //   fetch("/user/signup", {
-    //     method: "PUT",
-    //     body: params,
-    //     headers : {}
-    //   })
-    //           .then((response) => {
-    //             if (response.ok) {
-    //               return response.json()
-    //             }
-    //           })
-    //           //콜백함수
-    //           .then((res)=>{
-    //             console.log(res.responseCode);
-    //             if(res.responseCode === "성공"){
-    //               alert("등록성공");
-    //               window.location.href = "/board"
-    //             }
-    //           })
-    //
-    //           .catch((error) => alert(error))     // 클릭이벤트 실행 중에 에러가 발생하면, 에러발생 알림창을 제시
-    // })
   })
 
 </script>

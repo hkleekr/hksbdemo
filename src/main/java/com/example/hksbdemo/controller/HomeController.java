@@ -8,7 +8,6 @@ import com.example.hksbdemo.domain.QuestionSaveRequestDto;
 import com.example.hksbdemo.domain.site_user.SiteUser;
 import com.example.hksbdemo.domain.site_user.SiteUserResponseDto;
 import com.example.hksbdemo.domain.site_user.SiteUserSaveRequestDto;
-//import com.example.hksbdemo.domain.site_user.UserCreateForm;
 import com.example.hksbdemo.repository.answerRepository;
 import com.example.hksbdemo.repository.questionRepository;
 import com.example.hksbdemo.service.answer.AnswerService;
@@ -25,6 +24,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.dao.DataIntegrityViolationException;
 
 import javax.validation.Valid;
 
@@ -123,21 +123,34 @@ public class HomeController {
     private final SiteUserService siteUserService;
 
     //**회원**
+    //등록페이지
     @GetMapping("/user/signup")
-    public String signup(SiteUser siteUser) {
+    public String signup(@RequestParam(required = false) Long id, Model model) {
+            model.addAttribute("signup", new SiteUser());
         return "signup_form";
     }
 
+    //저장
     @PostMapping("/user/signup")
         public ResponseEntity<SiteUserResponseDto> signupSubmit(SiteUserSaveRequestDto siteUserSaveRequestDto) {
         SiteUserResponseDto siteUserResponseDto = new SiteUserResponseDto();
         siteUserService.save(siteUserSaveRequestDto, siteUserResponseDto);
         return ResponseEntity.ok().body(siteUserResponseDto);
-
     }
 
+    //수정
+    @PutMapping("/user/signup")
+    public ResponseEntity<SiteUserResponseDto> userModifySubmit(SiteUserSaveRequestDto siteUserSaveRequestDto, SiteUserResponseDto siteUserResponseDto) {
+        siteUserService.update(siteUserSaveRequestDto, siteUserResponseDto);
+        return ResponseEntity.ok().body(siteUserResponseDto);
+    }
 
-
+    //탈퇴
+    @DeleteMapping("/user/signup")
+    public ResponseEntity<SiteUserResponseDto> userDelete(SiteUserSaveRequestDto siteUserSaveRequestDto, SiteUserResponseDto siteUserResponseDto) {
+        siteUserService.update(siteUserSaveRequestDto, siteUserResponseDto);
+        return ResponseEntity.ok().body(siteUserResponseDto);
+    }
 
 //    게시판 추천기능을 위한 코드
 //    boolean like = false; // 비로그인 유저라면 무조건 false;

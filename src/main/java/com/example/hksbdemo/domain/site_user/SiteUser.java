@@ -22,7 +22,7 @@ public class SiteUser {
     @NotEmpty(message = "비밀번호는 필수항목입니다.")
     private String password;
 
-    @Column(name = "email", unique = true)
+    @Column(name = "email")
     @NotEmpty(message = "이메일은 필수항목입니다.")
     private String email;
 
