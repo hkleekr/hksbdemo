@@ -1,6 +1,5 @@
 package com.example.hksbdemo.domain;
 
-import com.example.hksbdemo.domain.site_user.SiteUser;
 import com.sun.istack.NotNull;
 import lombok.*;
 

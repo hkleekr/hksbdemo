@@ -1,7 +1,7 @@
 package com.example.hksbdemo.domain.question_voter;
 
 import com.example.hksbdemo.domain.Question;
-import com.example.hksbdemo.domain.site_user.SiteUser;
+import com.example.hksbdemo.domain.SiteUser;
 import lombok.Builder;
 import lombok.Data;
 

@@ -1,6 +1,6 @@
 package com.example.hksbdemo.repository;
 
-import com.example.hksbdemo.domain.site_user.SiteUser;
+import com.example.hksbdemo.domain.SiteUser;
 import com.example.hksbdemo.domain.Question;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

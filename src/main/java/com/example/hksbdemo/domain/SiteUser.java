@@ -1,4 +1,4 @@
-package com.example.hksbdemo.domain.site_user;
+package com.example.hksbdemo.domain;
 
 
 import lombok.Builder;

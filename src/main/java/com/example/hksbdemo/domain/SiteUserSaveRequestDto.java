@@ -1,13 +1,8 @@
-package com.example.hksbdemo.domain.site_user;
+package com.example.hksbdemo.domain;
 
-import com.sun.istack.NotNull;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 
 @NoArgsConstructor
 @Data

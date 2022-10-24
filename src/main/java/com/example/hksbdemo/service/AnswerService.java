@@ -1,4 +1,4 @@
-package com.example.hksbdemo.service.answer;
+package com.example.hksbdemo.service;
 
 import com.example.hksbdemo.domain.AnswerResponseDto;
 import com.example.hksbdemo.domain.Answer;

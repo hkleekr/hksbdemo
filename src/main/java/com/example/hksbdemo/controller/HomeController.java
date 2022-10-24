@@ -5,14 +5,14 @@ import com.example.hksbdemo.domain.AnswerSaveRequestDto;
 import com.example.hksbdemo.domain.QuestionResponseDto;
 import com.example.hksbdemo.domain.Question;
 import com.example.hksbdemo.domain.QuestionSaveRequestDto;
-import com.example.hksbdemo.domain.site_user.SiteUser;
-import com.example.hksbdemo.domain.site_user.SiteUserResponseDto;
-import com.example.hksbdemo.domain.site_user.SiteUserSaveRequestDto;
+import com.example.hksbdemo.domain.SiteUser;
+import com.example.hksbdemo.domain.SiteUserResponseDto;
+import com.example.hksbdemo.domain.SiteUserSaveRequestDto;
 import com.example.hksbdemo.repository.answerRepository;
 import com.example.hksbdemo.repository.questionRepository;
-import com.example.hksbdemo.service.answer.AnswerService;
-import com.example.hksbdemo.service.question.QuestionService;
-import com.example.hksbdemo.service.site_user.SiteUserService;
+import com.example.hksbdemo.service.AnswerService;
+import com.example.hksbdemo.service.QuestionService;
+import com.example.hksbdemo.service.SiteUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -22,11 +22,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.dao.DataIntegrityViolationException;
-
-import javax.validation.Valid;
 
 @RequiredArgsConstructor
 @Controller
@@ -138,26 +134,33 @@ public class HomeController {
         return ResponseEntity.ok().body(siteUserResponseDto);
     }
 
-    //수정
-    @PutMapping("/user/mypage")
-    public ResponseEntity<SiteUserResponseDto> userModifySubmit(SiteUserSaveRequestDto siteUserSaveRequestDto, SiteUserResponseDto siteUserResponseDto) {
-        siteUserService.update(siteUserSaveRequestDto, siteUserResponseDto);
-        return ResponseEntity.ok().body(siteUserResponseDto);
-    }
-
-    //탈퇴
-    @DeleteMapping("/user/mypage")
-    public ResponseEntity<SiteUserResponseDto> userDelete(@RequestParam("username") String username, SiteUserResponseDto siteUserResponseDto) {
-        siteUserService.delete(username, siteUserResponseDto);
-        return ResponseEntity.ok().body(siteUserResponseDto);
-    }
-
 //    마이페이지
     @GetMapping("/user/mypage")
     public String callMyPage(@RequestParam(required = false) Long id, Model model) {
         model.addAttribute("callMyPage", new SiteUser());
         return "userPage";
     }
+
+    //회원수정
+    @PutMapping("/user/mypage")
+    public ResponseEntity<SiteUserResponseDto> userModifySubmit(SiteUserSaveRequestDto siteUserSaveRequestDto, SiteUserResponseDto siteUserResponseDto) {
+        siteUserService.update(siteUserSaveRequestDto, siteUserResponseDto);
+        return ResponseEntity.ok().body(siteUserResponseDto);
+    }
+
+    //회원탈퇴
+    @DeleteMapping("/user/mypage")
+    public ResponseEntity<SiteUserResponseDto> userDelete(@RequestParam("username") String username, SiteUserResponseDto siteUserResponseDto) {
+        siteUserService.delete(username, siteUserResponseDto);
+        return ResponseEntity.ok().body(siteUserResponseDto);
+    }
+
+    // 로그인
+    @GetMapping("/user/login")
+    public String login() {
+        return "login_form";
+    }
+
 
 //    게시판 추천기능을 위한 코드
 //    boolean like = false; // 비로그인 유저라면 무조건 false;

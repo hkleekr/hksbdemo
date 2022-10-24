@@ -1,14 +1,16 @@
 package com.example.hksbdemo.repository;
 
-import com.example.hksbdemo.domain.site_user.SiteUser;
+import com.example.hksbdemo.domain.SiteUser;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+
+import java.util.Optional;
 
 @Repository
 public interface SiteUserRepository extends JpaRepository <SiteUser, Long>{
     SiteUser findById(String id);
 
-    SiteUser findByusername(String username);
+    Optional<SiteUser> findByusername(String username);
 
 }
 

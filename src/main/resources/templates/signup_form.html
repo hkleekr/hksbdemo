@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
 <head>
   <meta charset="UTF-8">
@@ -19,13 +19,15 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="/user/login">Login</a>
+          <!--                    <a class="nav-link active" aria-current="page" href="/user/login">Login</a>-->
+          <a class="nav-link active" aria-current="page" sec:authorize="isAnonymous()" href="/user/login">Login</a>
+          <a class="nav-link active" aria-current="page" sec:authorize="isAuthenticated()" href="/user/logout">Logout</a>
         </li>
         <li class="nav-item">
           <a class="nav-link active" aria-current="page" href="/user/signup">Sign Up</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="/user/signup">My Page</a>
+          <a class="nav-link active" aria-current="page" href="/user/mypage">My Page</a>
         </li>
       </ul>
     </div>
@@ -38,7 +40,7 @@
       <h4>회원가입</h4>
     </div>
   </div>
-  <form th:action="@{/user/signup}" th:object="${userCreateForm}" method="post">
+  <form>
     <div class="mb-3">
       <span>사용자 ID: </span>
       <input id="writeUsername" type="text" class="form-control">

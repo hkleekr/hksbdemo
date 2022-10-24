@@ -1,5 +1,6 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -42,25 +43,28 @@
 <body>
 <!--네비게이션바-->
 <nav class="navbar navbar-expand-lg bg-light">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="/board">Education</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="/user/login">Login</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="/user/signup">Sign Up</a>
-        </li>
-          <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="/user/mypage">My Page</a>
-          </li>
-      </ul>
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/board">Education</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <!--                    <a class="nav-link active" aria-current="page" href="/user/login">Login</a>-->
+                    <a class="nav-link active" aria-current="page" sec:authorize="isAnonymous()" href="/user/login">Login</a>
+                    <a class="nav-link active" aria-current="page" sec:authorize="isAuthenticated()" href="/user/logout">Logout</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/user/signup">Sign Up</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/user/mypage">My Page</a>
+                </li>
+            </ul>
+        </div>
     </div>
-  </div>
 </nav>
 <!--질문 영역, 쓰기 기능이 구현되어야 함    -->
 <div class="container my-3">
