@@ -26,7 +26,7 @@ public class Answer {
     @Column(name = "modify_date", columnDefinition = "TIMESTAMP")
     private LocalDateTime modify_date;
 
-    @ManyToOne
+    @ManyToOne //여러 개의 답변을 한 명이 작성할 수 있으므로
     @JoinColumn(name = "author_id")
     private SiteUser site_user;
 

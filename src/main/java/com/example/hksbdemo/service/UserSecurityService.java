@@ -1,5 +1,6 @@
 package com.example.hksbdemo.service;
 
+import com.example.hksbdemo.DataNotFoundException;
 import com.example.hksbdemo.domain.SiteUser;
 import com.example.hksbdemo.domain.site_user.UserRole;
 import com.example.hksbdemo.repository.SiteUserRepository;
@@ -37,4 +38,5 @@ public class UserSecurityService implements UserDetailsService {  //UserDetailsS
         }
         return new User(siteUser.getUsername(), siteUser.getPassword(), authorities);
     }
+
 }

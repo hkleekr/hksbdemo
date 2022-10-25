@@ -36,5 +36,4 @@ public class QuestionSaveRequestDto {
                 .site_user(site_user)
                 .build();
     }
-
 }

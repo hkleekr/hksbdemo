@@ -43,7 +43,7 @@ public class Question {
     @Column(name = "subject", length = 200)
     private String subject;
 
-    @ManyToOne
+    @ManyToOne  //여러 개의 질문을 한 명이 작성할 수 있으므로
     @JoinColumn(name = "author_id")
     private SiteUser site_user;
 

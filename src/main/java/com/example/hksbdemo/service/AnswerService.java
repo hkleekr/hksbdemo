@@ -1,9 +1,7 @@
 package com.example.hksbdemo.service;
 
-import com.example.hksbdemo.domain.AnswerResponseDto;
-import com.example.hksbdemo.domain.Answer;
+import com.example.hksbdemo.domain.*;
 import com.example.hksbdemo.repository.answerRepository;
-import com.example.hksbdemo.domain.AnswerSaveRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,10 +15,12 @@ public class AnswerService {
 
     private final answerRepository answerRepository;
 
+//    답변 등록, 작성자 연결
     @Transactional
-    public void save(AnswerSaveRequestDto requestDto, AnswerResponseDto responseDTO) {
-       Integer getId = answerRepository.save(requestDto.toEntity()).getId();
-       String result = "";
+    public void save(AnswerSaveRequestDto requestDto, AnswerResponseDto responseDTO, SiteUser account) {
+        requestDto.setSite_user(account);
+        Integer getId = answerRepository.save(requestDto.toEntity()).getId();
+        String result = "";
         boolean answer = answerRepository.existsById(getId);
         if(answer == true){
             result= "성공";
@@ -28,6 +28,7 @@ public class AnswerService {
         responseDTO.setResponseCode(result);
         }
 
+//    답변 수정
     @Transactional
     public void update(Integer id, AnswerSaveRequestDto requestDto, AnswerResponseDto responseDto) {
         Optional<Answer> oa = answerRepository.findById(id);
@@ -41,9 +42,9 @@ public class AnswerService {
             result = "성공";
         }
         responseDto.setResponseCode(result);
-
     }
 
+//    답변 삭제
     @Transactional
     public void delete(Integer id, AnswerResponseDto responseDto) {
         answerRepository.deleteById(id);

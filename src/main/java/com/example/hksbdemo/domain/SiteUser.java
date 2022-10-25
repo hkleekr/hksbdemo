@@ -41,7 +41,7 @@ public class SiteUser {
 //        this.role = role;
     }
 
+//    기본생성자
     public SiteUser() {
-        // 기본생성자
     }
 }
