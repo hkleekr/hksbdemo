@@ -1,8 +1,7 @@
 package com.example.hksbdemo.service;
 
-import com.example.hksbdemo.DataNotFoundException;
 import com.example.hksbdemo.domain.SiteUser;
-import com.example.hksbdemo.domain.site_user.UserRole;
+import com.example.hksbdemo.domain.UserRole;
 import com.example.hksbdemo.repository.SiteUserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;

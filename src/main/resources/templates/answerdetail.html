@@ -7,34 +7,10 @@
     <title>Bootstrap demo</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
-
 </head>
 <body>
 <!--네비게이션바-->
-<nav class="navbar navbar-expand-lg bg-light">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="/board">Education</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <!--                    <a class="nav-link active" aria-current="page" href="/user/login">Login</a>-->
-                    <a class="nav-link active" aria-current="page" sec:authorize="isAnonymous()" href="/user/login">Login</a>
-                    <a class="nav-link active" aria-current="page" sec:authorize="isAuthenticated()" href="/user/logout">Logout</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="/user/signup">Sign Up</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="/user/mypage">My Page</a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
+    <nav th:replace="navbar :: navbarFragment"></nav>
 <!--질문 영역    -->
 <div class="container my-3">
     <form action="#">
@@ -120,8 +96,8 @@
         crossorigin="anonymous"></script>
 <!-- 자바스크립트 Start -->
 <script>
-    // 댓글등록
     document.addEventListener("DOMContentLoaded", () => {              // html document를 다 읽고 이벤트 호출, 페이지에 1번만 적으면 되는 부분
+        // 답변 저장
         document.getElementById("answerBtn").addEventListener("click", () => {  // "answerBtn" 클릭 이벤트 발생 시,
             let params = new FormData;                                        // params라는 새로운 FormData의 객체를 생성
             params.append("content", document.getElementById("answerContent").value) //param에 "answerContent" id에서 적은 값(value)을 "content"에 append 하시오
@@ -178,7 +154,7 @@
                 .catch((error) => alert(error))
         })
 
-        //질문삭제
+        //질문 삭제
         document.getElementById("btnQuestionDelete").addEventListener("click", () => {
             let params = new FormData;
             params.append("id", "[[${param.id}]]")
@@ -205,8 +181,8 @@
                 .catch((error) => alert(error))
         })
 
-        // 답변 수정
-        document.getElementsByClassName("answer_list")[0].addEventListener("click", (e) => { // 답변 수정과 삭제를 한 부모 아래의 자식으로 세팅해서
+        // 답변 수정 & 삭제 : 수정과 삭제는 한 부모 아래의 자식으로 세팅
+        document.getElementsByClassName("answer_list")[0].addEventListener("click", (e) => {
             if (e.target.id == "btnAnswerModify") {                                              // 수정버튼을 누르면
                 let params = new FormData;                                                       // params라는 새로운 FormData의 객체를 생성
                 params.append("id", e.target.getAttribute("answer_id"))                          // answer의 id 호출

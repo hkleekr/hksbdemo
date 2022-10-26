@@ -9,30 +9,7 @@
 </head>
 <body>
 <!--네비게이션바-->
-<nav class="navbar navbar-expand-lg bg-light">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="/board">Education</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <!--                    <a class="nav-link active" aria-current="page" href="/user/login">Login</a>-->
-          <a class="nav-link active" aria-current="page" sec:authorize="isAnonymous()" href="/user/login">Login</a>
-          <a class="nav-link active" aria-current="page" sec:authorize="isAuthenticated()" href="/user/logout">Logout</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="/user/signup">Sign Up</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="/user/mypage">My Page</a>
-        </li>
-      </ul>
-    </div>
-  </div>
-</nav>
+  <nav th:replace="navbar :: navbarFragment"></nav>
 <!--<회원가입영역>-->
 <div layout:fragment="content" class="container my-3">
   <div class="my-3 border-bottom">
@@ -58,8 +35,6 @@
       <input id="writeEmail" type="email" class="form-control">
     </div>
     <input id="btnUserRegistration" class="btn btn-primary" type="button" value="회원가입">
-<!--    <input id="btnUserModify" class="btn btn-outline-primary me-md-2" type="button" value="회원정보수정">-->
-<!--    <input id="btnUserDelete" class="btn btn-outline-danger me-md-2" type="button" value="회원탈퇴">-->
   </form>
 </div>
 <script>
@@ -92,62 +67,6 @@
 
               .catch((error) => alert(error))     // 클릭이벤트 실행 중에 에러가 발생하면, 에러발생 알림창을 제시
     })
-
-    // // 회원정보수정
-    // document.getElementById("btnUserModify").addEventListener("click",()=>{
-    //   let params = new FormData;
-    //   params.append("username",document.getElementById("writeUsername").value)
-    //   params.append("password",document.getElementById("writePassword1").value)
-    //   params.append("email",document.getElementById("writeEmail").value)
-    //
-    //   fetch("/user/signup", {
-    //     method: "put",
-    //     body: params,
-    //     headers : {}
-    //   })
-    //           .then((response) => {
-    //             if (response.ok) {
-    //               return response.json()
-    //             }
-    //           })
-    //           //콜백함수
-    //           .then((res)=>{
-    //             console.log(res.responseCode);
-    //             if(res.responseCode === "성공"){
-    //               alert("수정성공");
-    //               window.location.href = "/board"
-    //             }
-    //           })
-    //
-    //           .catch((error) => alert(error))     // 클릭이벤트 실행 중에 에러가 발생하면, 에러발생 알림창을 제시
-    // })
-    //
-    // //회원탈퇴
-    // document.getElementById("btnUserDelete").addEventListener("click",()=>{
-    //   let params = new FormData;
-    //   params.append("username",document.getElementById("writeUsername").value)
-    //
-    //   fetch("/user/signup", {
-    //     method: "DELETE",
-    //     body: params,
-    //     headers : {}
-    //   })
-    //           .then((response) => {
-    //             if (response.ok) {
-    //               return response.json()
-    //             }
-    //           })
-    //           //콜백함수
-    //           .then((res)=>{
-    //             console.log(res.responseCode);
-    //             if(res.responseCode === "성공"){
-    //               alert("삭제성공");
-    //               window.location.href = "/board"
-    //             }
-    //           })
-    //
-    //           .catch((error) => alert(error))     // 클릭이벤트 실행 중에 에러가 발생하면, 에러발생 알림창을 제시
-    // })
   })
 
 </script>
