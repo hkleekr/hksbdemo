@@ -19,8 +19,7 @@
         <div class="card border-success mb-3">
             <div class="card-body text-success">
                 <p class="card-text">
-                    <textarea id="questionContentModify" class="col-md-1 form-control" style="height:150px;"
-                              th:text="${detail.content}"></textarea>
+                    <textarea id="questionContentModify" class="col-md-1 form-control" style="height:150px;" th:text="${detail.content}"></textarea>
                 </p>
                 <!--    글쓴이-->
                 <div class="d-flex justify-content-end">
@@ -36,12 +35,16 @@
                         <span class="badge rounded-pill bg-success" th:text="${#lists.size(detail.voter)}"></span>
                     </a>
                 </div>
-                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                    <input class="btn btn-outline-primary me-md-2" type="button" id="btnQuestionModify"
-                           value="질문수정"></input>
-                    <input class="btn btn-outline-danger me-md-2" type="button" id="btnQuestionDelete"
-                           value="질문삭제"></input>
-                </div>
+<!--                의도: 질문수정&삭제: 로그인사용자==글쓴이의 경우만 노출-->
+                <th:block
+                th:if="${detail.site_user != null and #authentication.getPrincipal().getUsername() == detail.site_user.username}">
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <input class="btn btn-outline-primary me-md-2" type="button" id="btnQuestionModify"
+                               value="질문수정"></input>
+                        <input class="btn btn-outline-danger me-md-2" type="button" id="btnQuestionDelete"
+                               value="질문삭제"></input>
+                    </div>
+                </th:block>
             </div>
         </div>
 
@@ -61,7 +64,7 @@
     </form>
     <!--답변제시영역-->
     <form>
-        <h3 class="border-bottom py-2"><span th:text="${detail.answerList.size()} + '개의 답변이 있습니다.'"></span></h3>
+        <h5 class="border-bottom py-2"><span th:text="${detail.answerList.size()} + '개의 답변이 있습니다.'"></span></h5>
         <div class="answer_list">
             <th:block th:each="answer : ${detail.answerList}">
 <!--                답변은 'question.java'의 "answerList와 연결되어있는데, @GetMapping("/board/detail")에서 attributeName을 "detail"로 정의-->
@@ -70,7 +73,6 @@
                         <p class="card-text">
                             <textarea class="col-md-1 form-control" id="commentContents"
                                       th:text="${answer.content}"></textarea>
-<!--                            "detail"의 리스트 안을 loop 도는 친구가 answer인데, answer의 content를 제시해라-->
                         </p>
 
                         <div class="d-flex justify-content-end"><!--    답변 글쓴이-->
@@ -86,14 +88,15 @@
                                 <span class="badge rounded-pill bg-success" th:text="${#lists.size(answer.voter)}"></span>
                             </a>
                         </span>
-                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                            <button type="button" class="btn btn-outline-primary me-md-2" th:answer_id="${answer.id}"
-                                    id="btnAnswerModify">답변수정
-                            </button>
-                            <input class="btn btn-outline-danger me-md-2" th:answer_id="${answer.id}" type="button"
-                                   id="btnAnswerDelete" value="답변삭제"></input>
-                            <!--th:href="@{/question/answ}" 불필요하다고 판단, 제거했음 10/19-->
-                        </div>
+                        <div th:text="${#authentication.getPrincipal().getUsername()}"></div>
+                        <th:block th:if="${answer.site_user != null and #authentication.getPrincipal().getUsername() == answer.site_user.username}">
+                            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                <input type="button" class="btn btn-outline-primary me-md-2" th:answer_id="${answer.id}"
+                                        id="btnAnswerModify" value="답변수정">
+                                <input type="button" class="btn btn-outline-danger me-md-2" th:answer_id="${answer.id}"
+                                       id="btnAnswerDelete" value="답변삭제">
+                            </div>
+                        </th:block>
                     </div>
                 </div>
             </th:block>
@@ -114,7 +117,7 @@
 
             fetch("/board/detail", {    // "/question/answ" 를 서버에 전달
                 method: "POST",          // POST 메소드
-                body: params,            // params를 (->위에서 만든 FormData 형식을 전달, 약간 포스트맨의 json 형식으로 요청하는 모양새..)
+                body: params,            // params를 (->위에서 만든 FormData 형식을 전달, 약간 포스트맨의 json 형식으로 요청)
                 headers: {}             // header는 공백
             })
                 .then((response) => {    // 그 다음에
@@ -135,60 +138,62 @@
         })
 
         // 질문 수정
-        document.getElementById("btnQuestionModify").addEventListener("click", () => {  // "answerBtn" 클릭 이벤트 발생 시,
-            let params = new FormData;                                        // params라는 새로운 FormData의 객체를 생성
-            params.append("content", document.getElementById("questionContentModify").value) //param에 "questionContentModify" id에서 적은 값(value)을 "content"에 append 하시오
-            params.append("id", "[[${param.id}]]")  // id는 id
-            params.append("subject", document.getElementById("questionTitle").innerText)  //
+        if(document.getElementById("btnQuestionModify")){
+            document.getElementById("btnQuestionModify").addEventListener("click", () => {  // "answerBtn" 클릭 이벤트 발생 시,
+                let params = new FormData;                                        // params라는 새로운 FormData의 객체를 생성
+                params.append("content", document.getElementById("questionContentModify").value) //param에 "questionContentModify" id에서 적은 값(value)을 "content"에 append 하시오
+                params.append("id", "[[${param.id}]]")  // id는 id
+                params.append("subject", document.getElementById("questionTitle").innerText)  //
 
-            fetch("/board/question", {
-                method: "PUT",
-                body: params,
-                headers: {}
+                fetch("/board/question", {
+                    method: "PUT",
+                    body: params,
+                    headers: {}
+                })
+                    .then((response) => {
+                        if (response.ok) {
+                            return response.json()
+                        }
+                    })
+                    //콜백함수
+                    .then((res) => {
+                        console.log(res.responseCode);
+                        if (res.responseCode === "성공") {
+                            alert("수정성공");
+                            window.location.reload();
+                        }
+                    })
+
+                    .catch((error) => alert(error))
             })
-                .then((response) => {
-                    if (response.ok) {
-                        return response.json()
-                    }
+
+            //질문 삭제
+            document.getElementById("btnQuestionDelete").addEventListener("click", () => {
+                let params = new FormData;
+                params.append("id", "[[${param.id}]]")
+
+                fetch("/board/question", {
+                    method: "DELETE",
+                    body: params,
+                    headers: {}
                 })
-                //콜백함수
-                .then((res) => {
-                    console.log(res.responseCode);
-                    if (res.responseCode === "성공") {
-                        alert("수정성공");
-                        window.location.reload();
-                    }
-                })
+                    .then((response) => {
+                        if (response.ok) {
+                            return response.json()
+                        }
+                    })
+                    //콜백함수
+                    .then((res) => {
+                        console.log(res.responseCode);
+                        if (res.responseCode === "삭제성공") {
+                            alert("삭제성공");
+                            window.location.href = "/board";
+                        }
+                    })
 
-                .catch((error) => alert(error))
-        })
-
-        //질문 삭제
-        document.getElementById("btnQuestionDelete").addEventListener("click", () => {
-            let params = new FormData;
-            params.append("id", "[[${param.id}]]")
-
-            fetch("/board/question", {
-                method: "DELETE",
-                body: params,
-                headers: {}
+                    .catch((error) => alert(error))
             })
-                .then((response) => {
-                    if (response.ok) {
-                        return response.json()
-                    }
-                })
-                //콜백함수
-                .then((res) => {
-                    console.log(res.responseCode);
-                    if (res.responseCode === "삭제성공") {
-                        alert("삭제성공");
-                        window.location.href = "/board";
-                    }
-                })
-
-                .catch((error) => alert(error))
-        })
+        }
 
         // 답변 수정 & 삭제 : 수정과 삭제는 한 부모 아래의 자식으로 세팅
         document.getElementsByClassName("answer_list")[0].addEventListener("click", (e) => {

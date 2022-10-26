@@ -5,7 +5,6 @@ import com.example.hksbdemo.repository.answerRepository;
 import com.example.hksbdemo.repository.QuestionRepository;
 import com.example.hksbdemo.service.AnswerService;
 import com.example.hksbdemo.service.QuestionService;
-import com.example.hksbdemo.service.Question_VoterService;
 import com.example.hksbdemo.service.SiteUserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,10 +13,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -31,18 +28,13 @@ public class HomeController {
 
     private final AnswerService answerService;
     private final QuestionService questionService;
-
-    @Autowired
-    private answerRepository answerRepository;
     @Autowired
     private QuestionRepository questionRepository;
-    private ResponseEntity<QuestionResponseDto> Boolean;
 
-    // 메인페이지
+    // 메인페이지 - 로그인 없이 접근가능
     @GetMapping("/board")
     public String list(Model model, @PageableDefault(size = 8, sort="id", direction = Sort.Direction.DESC) Pageable pageable,
                        @RequestParam(required = false, defaultValue = "") String searchText) {
-//      페이지네이션 영역
         Page<Question> q = questionRepository.findBySubjectContainingOrContentContaining(searchText, searchText, pageable);
         int startPage = Math.max(1, q.getPageable().getPageNumber() - 4);
         int endPage = Math.min(q.getTotalPages(), q.getPageable().getPageNumber() + 4);
@@ -53,6 +45,7 @@ public class HomeController {
     }
 
 //    질문페이지
+    @PreAuthorize("isAuthenticated()")  // 로그인 필요한 페이지
     @GetMapping("/board/question")
     public String ques(Model model, @RequestParam(required = false) Integer id) {
         if(id == null){
@@ -88,6 +81,7 @@ public class HomeController {
     }
 
 //    질문-답변페이지
+    @PreAuthorize("isAuthenticated()")  // 로그인 필요한 페이지
     @GetMapping("/board/detail")
     public String answ(@RequestParam Integer id, Model model) {  //pageable 추가, id영역에 answer_id를 넣어야 할 것 같음
         Question q = (Question) questionService.getDetail(id);
@@ -113,11 +107,8 @@ public class HomeController {
 
 //    답변 삭제
     @DeleteMapping("/board/detail")
-    public ResponseEntity<AnswerResponseDto> deleteAnswer(@RequestParam ("id") Integer id, AnswerResponseDto responseDto) {  // id = question의 id
-//        answer a = new answer(); // id를 통해 클릭이 된 Answer의 id를 데려오는 코드 "answerService.java"
-//        id = answerService.findAnswerId(question_id, responseDto);  // 제거대상인 answer의 id를 데려오면
-        answerService.delete(id, responseDto);  // answer의 id를 통해서 답변 삭제
-
+    public ResponseEntity<AnswerResponseDto> deleteAnswer(@RequestParam ("id") Integer id, AnswerResponseDto responseDto) {  // html로부터 받는 id = answer의 id
+        answerService.delete(id, responseDto);
         return ResponseEntity.ok().body(responseDto);
     }
 
@@ -140,6 +131,7 @@ public class HomeController {
     }
 
 //    마이페이지
+    @PreAuthorize("isAuthenticated()")  // 로그인 필요한 페이지
     @GetMapping("/user/mypage")
     public String callMyPage(@RequestParam(required = false) Long id, Model model) {
         model.addAttribute("callMyPage", new SiteUser());
