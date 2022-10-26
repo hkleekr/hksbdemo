@@ -10,20 +10,20 @@ import lombok.NoArgsConstructor;
 @Data
 public class question_voterSaveRequestDto {
     private Question question;
-    private SiteUser site_user;
+    private SiteUser siteUser;
 
     @Builder
 
-    public question_voterSaveRequestDto(Question question, SiteUser site_user) {
+    public question_voterSaveRequestDto(Question question, SiteUser siteUser) {
         this.question = question;
-        this.site_user = site_user;
+        this.siteUser = siteUser;
     }
 
     // Dto에서 필요한 부분을 entity화 시킴
-    public question_voter toEntity() {
-        return question_voter.builder()
+    public Question_Voter toEntity() {
+        return Question_Voter.builder()
                 .question(question)
-                .site_user(site_user)
+                .siteUser(siteUser)
                 .build();
     }
 }

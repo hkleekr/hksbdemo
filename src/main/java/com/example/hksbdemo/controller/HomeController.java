@@ -1,31 +1,30 @@
 package com.example.hksbdemo.controller;
 
-import com.example.hksbdemo.domain.AnswerResponseDto;
-import com.example.hksbdemo.domain.AnswerSaveRequestDto;
-import com.example.hksbdemo.domain.QuestionResponseDto;
-import com.example.hksbdemo.domain.Question;
-import com.example.hksbdemo.domain.QuestionSaveRequestDto;
-import com.example.hksbdemo.domain.SiteUser;
-import com.example.hksbdemo.domain.SiteUserResponseDto;
-import com.example.hksbdemo.domain.SiteUserSaveRequestDto;
+import com.example.hksbdemo.domain.*;
 import com.example.hksbdemo.repository.answerRepository;
-import com.example.hksbdemo.repository.questionRepository;
+import com.example.hksbdemo.repository.QuestionRepository;
 import com.example.hksbdemo.service.AnswerService;
 import com.example.hksbdemo.service.QuestionService;
+import com.example.hksbdemo.service.Question_VoterService;
 import com.example.hksbdemo.service.SiteUserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 
+@Slf4j
 @RequiredArgsConstructor
 @Controller
 public class HomeController {
@@ -36,18 +35,17 @@ public class HomeController {
     @Autowired
     private answerRepository answerRepository;
     @Autowired
-    private questionRepository questionRepository;
+    private QuestionRepository questionRepository;
     private ResponseEntity<QuestionResponseDto> Boolean;
 
     // 메인페이지
     @GetMapping("/board")
     public String list(Model model, @PageableDefault(size = 8, sort="id", direction = Sort.Direction.DESC) Pageable pageable,
                        @RequestParam(required = false, defaultValue = "") String searchText) {
-//        Page<question> q = questionRepository.findAll(pageable);
+//      페이지네이션 영역
         Page<Question> q = questionRepository.findBySubjectContainingOrContentContaining(searchText, searchText, pageable);
         int startPage = Math.max(1, q.getPageable().getPageNumber() - 4);
         int endPage = Math.min(q.getTotalPages(), q.getPageable().getPageNumber() + 4);
-
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
         model.addAttribute("q", q);
@@ -166,6 +164,26 @@ public class HomeController {
     @GetMapping("/user/login")
     public String login() {
         return "login_form";
+    }
+
+//    질문 추천 처리
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/board/question/vote/{id}")
+    public String questionVote(Principal principal, @PathVariable("id") Integer id) {
+        Question question = this.questionService.getQuestion(id);
+        SiteUser siteUser = this.siteUserService.getUser(principal.getName());
+        this.questionService.qVote(question, siteUser);
+        return String.format("redirect:/board/detail/?id=%s", id);  //동작은 하는데, 이거 아닌 것 같음.. Dto를 사용하는 버전으로 수정 필요
+    }
+
+//    답변 추천 처리
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/board/answer/vote/{id}")
+    public String answerVote(Principal principal, @PathVariable("id") Integer id) {  //여기 id는 answerid를 보내자
+        Answer answer = this.answerService.getAnswer(id);
+        SiteUser siteUser = this.siteUserService.getUser(principal.getName());
+        this.answerService.aVote(answer, siteUser);
+        return String.format("redirect:/board/detail/?id=%s", answer.getQuestion().getId());  //동작은 하는데, 이곳의 id가 Question_id여야 함
     }
 
 

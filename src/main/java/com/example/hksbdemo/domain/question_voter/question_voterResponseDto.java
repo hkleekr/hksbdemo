@@ -8,10 +8,10 @@ import lombok.Data;
 
 public class question_voterResponseDto {
     private Question question;
-    private SiteUser site_user;
+    private SiteUser siteUser;
 
-    public question_voterResponseDto(question_voter entity) {
+    public question_voterResponseDto(Question_Voter entity) {
         this.question = entity.getQuestion();
-        this.site_user = entity.getSite_user();
+        this.siteUser = entity.getSiteUser();
     }
 }

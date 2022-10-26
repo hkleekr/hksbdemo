@@ -28,6 +28,14 @@
                         <span th:if="${detail.site_user !=null}" th:text="${detail.site_user.username}"></span>  <!--    HomeController에서 question을 "detail"로 받아오도록 설정했음-->
                     </div>
                 </div>
+                <!--        질문 추천 10/26-->
+                <div class="my-3">
+                    <a href="javascript:void(0);" class="recommend btn btn-sm btn-outline-secondary"
+                       th:data-uri="@{|/board/question/vote/${detail.id}|}">
+                        추천
+                        <span class="badge rounded-pill bg-success" th:text="${#lists.size(detail.voter)}"></span>
+                    </a>
+                </div>
                 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                     <input class="btn btn-outline-primary me-md-2" type="button" id="btnQuestionModify"
                            value="질문수정"></input>
@@ -36,14 +44,7 @@
                 </div>
             </div>
         </div>
-        <!--        추천-->
-        <div class="my-3">
-            <a href="javascript:void(0);" class="recommend btn btn-sm btn-outline-secondary"
-               data-uri="/question/vote/2">
-                추천
-                <span class="badge rounded-pill bg-success">1</span>
-            </a>
-        </div>
+
     </form>
 
     <!--답변쓰기영역-->
@@ -77,6 +78,14 @@
                                 <span th:if="${answer.site_user != null}" th:text="${answer.site_user.username}" id="answerWriter">hklee</span>
                             </div>
                         </div>
+                        <!--        답변 추천 10/26-->
+                        <span class="my-3">
+                            <a href="javascript:void(0);" class="recommend btn btn-sm btn-outline-secondary"
+                               th:data-uri="@{|/board/answer/vote/${answer.id}|}">
+                                추천
+                                <span class="badge rounded-pill bg-success" th:text="${#lists.size(answer.voter)}"></span>
+                            </a>
+                        </span>
                         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                             <button type="button" class="btn btn-outline-primary me-md-2" th:answer_id="${answer.id}"
                                     id="btnAnswerModify">답변수정

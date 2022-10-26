@@ -10,9 +10,9 @@ import java.io.Serializable;
 
 @Data
 @Entity(name = "question_voter")
-@IdClass(question_voter.class)
+@IdClass(Question_Voter.class)
 @Table(name = "question_voter")
-public class question_voter implements Serializable {
+public class Question_Voter implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,15 +24,15 @@ public class question_voter implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @ManyToOne
     @JoinColumn(name = "voter_id")
-    private SiteUser site_user;
+    private SiteUser siteUser;
 
     @Builder
-    public question_voter(Question question, SiteUser site_user) {
+    public Question_Voter(Question question, SiteUser siteUser) {
         this.question = question;
-        this.site_user = site_user;
+        this.siteUser = siteUser;
     }
 
-    public question_voter() {
+    public Question_Voter() {
 
     }
 }

@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @NoArgsConstructor
 @Getter
@@ -33,6 +34,10 @@ public class Answer {
     @ManyToOne
     @JoinColumn(name = "question_id")
     private Question question;
+
+//    for 추천 10/26
+    @ManyToMany
+    Set<SiteUser> voter;  //중복을 허용하지 않기 위해 set
 
     @Builder
     public Answer(String content, LocalDateTime create_date, LocalDateTime modify_date, SiteUser site_user, Question question) {

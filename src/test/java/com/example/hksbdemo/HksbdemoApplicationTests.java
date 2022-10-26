@@ -1,5 +1,6 @@
 package com.example.hksbdemo;
 
+import com.example.hksbdemo.repository.QuestionRepository;
 import com.example.hksbdemo.repository.SiteUserRepository;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +12,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 class HksbdemoApplicationTests {
 
 	@Autowired
-	protected com.example.hksbdemo.repository.questionRepository questionRepository;
+	protected QuestionRepository questionRepository;
 
 	@Autowired
 	protected SiteUserRepository site_userRepository;

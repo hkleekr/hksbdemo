@@ -1,16 +1,15 @@
 package com.example.hksbdemo.service;
 
-import com.example.hksbdemo.service.SiteUserService;
+import com.example.hksbdemo.DataNotFoundException;
 import com.example.hksbdemo.domain.QuestionResponseDto;
 import com.example.hksbdemo.domain.Question;
 import com.example.hksbdemo.domain.SiteUser;
-import com.example.hksbdemo.repository.questionRepository;
+import com.example.hksbdemo.repository.QuestionRepository;
 import com.example.hksbdemo.domain.QuestionSaveRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
@@ -18,7 +17,7 @@ import java.util.Optional;
 @Service
 public class QuestionService {
 
-    private final questionRepository questionRepository;
+    private final QuestionRepository questionRepository;
     private SiteUserService siteUserService;
 
 //    질문 등록, 작성자 연결
@@ -64,5 +63,22 @@ public class QuestionService {
     public Object getDetail(Integer id) {
         Optional<Question> qd = questionRepository.findById(id);
         return qd.get();
+    }
+
+//    추천을 위해 추가
+    public Question getQuestion(Integer id) {
+        Optional<Question> question = this.questionRepository.findById(id);
+        if (question.isPresent()) {
+            return question.get();
+        } else {
+            throw new DataNotFoundException("question not found");
+        }
+    }
+
+//    추천인 저장 10/26
+//    Question Entity에 사용자를 추천인으로 바로 저장했음, 동작 확인하고 requestDto를 사용하도록 코드 수정할 것
+    public void qVote(Question question, SiteUser siteUser) {
+        question.getVoter().add(siteUser);
+        this.questionRepository.save(question);
     }
 }

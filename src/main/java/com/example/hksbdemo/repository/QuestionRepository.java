@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface questionRepository extends JpaRepository <Question, Integer> {
+public interface QuestionRepository extends JpaRepository <Question, Integer> {
 
     List<Question> findBySubject(String subject);
     List<Question> findBySubjectOrContent(String subject, String content);

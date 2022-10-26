@@ -1,9 +1,12 @@
 package com.example.hksbdemo.domain;
 
+import com.example.hksbdemo.domain.question_voter.Question_Voter;
 import com.sun.istack.NotNull;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -43,13 +46,17 @@ public class Question {
     @Column(name = "subject", length = 200)
     private String subject;
 
-    @ManyToOne  //여러 개의 질문을 한 명이 작성할 수 있으므로
+    @ManyToOne(fetch = FetchType.LAZY)  //여러 개의 질문을 한 명이 작성할 수 있으므로
     @JoinColumn(name = "author_id")
     private SiteUser site_user;
 
     @OneToMany (mappedBy = "question", cascade = CascadeType.REMOVE) // cascade => answer도 함께 저장
 //    @OrderBy("id asc")  // 댓글 정렬 10/17 추가
     private List<Answer> answerList;  // 이 항목을 추가함으로써 answer와 연결
+
+//    for 추천 10/26
+    @ManyToMany
+    Set<SiteUser> voter;  //중복을 허용하지 않기 위해 set
 
     @Builder
     public Question(String content, LocalDateTime create_date, LocalDateTime modify_date, String subject, SiteUser site_user) {

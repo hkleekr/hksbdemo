@@ -1,10 +1,13 @@
 package com.example.hksbdemo.service;
 
+import com.example.hksbdemo.DataNotFoundException;
 import com.example.hksbdemo.domain.*;
 import com.example.hksbdemo.repository.answerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import com.example.hksbdemo.domain.SiteUser;
+import com.example.hksbdemo.domain.Answer;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -51,5 +54,22 @@ public class AnswerService {
         if(answerRepository.existsById(id) == false) {
             responseDto.setResponseCode("삭제성공");
         }
+    }
+
+//    추천을 위해 추가
+    public Answer getAnswer(Integer id) {
+        Optional<Answer> answer = this.answerRepository.findById(id);
+        if (answer.isPresent()) {
+            return answer.get();
+        } else {
+            throw new DataNotFoundException("Answer not found");
+        }
+    }
+
+//    추천인 저장 10/26
+//    Answer Entity에 사용자를 추천인으로 바로 저장했음, 동작 확인하고 requestDto를 사용하도록 코드 수정할 것
+    public void aVote(Answer answer, SiteUser siteUser) {
+        answer.getVoter().add(siteUser);
+        this.answerRepository.save(answer);
     }
 }
