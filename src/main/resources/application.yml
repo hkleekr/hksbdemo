@@ -18,12 +18,12 @@ spring:
       enabled: true
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://ec2-34-200-205-45.compute-1.amazonaws.com:5432/dcp5e950doouhd
-    username: tzwwhkqjjbssgj
-    password: 037f7bb6d4c445f4f446d9f485baadde14a251a0026d90f966190b4274a9de6b
-#    url: jdbc:postgresql://localhost:5432/hksbdemo
-#    username: postgres
-#    password: 1234
+#    url: jdbc:postgresql://ec2-34-200-205-45.compute-1.amazonaws.com:5432/dcp5e950doouhd
+#    username: tzwwhkqjjbssgj
+#    password: 037f7bb6d4c445f4f446d9f485baadde14a251a0026d90f966190b4274a9de6b
+    url: jdbc:postgresql://localhost:5432/hksbdemo
+    username: postgres
+    password: 1234
 #    url: jdbc:postgresql://ec2-23-20-140-229.compute-1.amazonaws.com:5432/d9a6b8pktcch8d
 #    username: grettxkdredndq
 #    password: 9ec77fc50c273ec801eb7f8a923305537e672279e94b7aa9a521344e24fbbf9e
