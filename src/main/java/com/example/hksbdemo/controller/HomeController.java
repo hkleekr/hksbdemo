@@ -26,6 +26,11 @@ import java.security.Principal;
 @Controller
 public class HomeController {
 
+    @RequestMapping("/")
+    public String root() {
+        return "redirect:/board";
+    }
+
     private final AnswerService answerService;
     private final QuestionService questionService;
     @Autowired
