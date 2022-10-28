@@ -37,8 +37,9 @@ public class HomeController {
     @Autowired
     private QuestionRepository questionRepository;
 
-    // 메인페이지 - 로그인 없이 접근가능
+//    메인페이지 - 로그인 없이 접근
 //    repository로 직접 접근하고 있음...service를 거쳐서 갈 수 있도록 코드 변경 필요
+//    Page를 통해서 사용가능한 데이터의 총 갯수 & 전체 페이지수 확인, ->총 페이지수 확인을 위해 카운트쿼리 실행함
     @GetMapping("/board")
     public String list(Model model, @PageableDefault(size = 8, sort="id", direction = Sort.Direction.DESC) Pageable pageable,
                        @RequestParam(required = false, defaultValue = "") String searchText) {
@@ -48,7 +49,7 @@ public class HomeController {
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
         model.addAttribute("q", q);
-        return "list"; // list.html
+        return "list"; //
     }
 
 //    질문페이지

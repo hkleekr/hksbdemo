@@ -7,6 +7,7 @@ import com.example.hksbdemo.domain.SiteUser;
 import com.example.hksbdemo.repository.QuestionRepository;
 import com.example.hksbdemo.domain.QuestionSaveRequestDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

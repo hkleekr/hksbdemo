@@ -88,7 +88,8 @@
                                 <span class="badge rounded-pill bg-success" th:text="${#lists.size(answer.voter)}"></span>
                             </a>
                         </span>
-                        <div th:text="${#authentication.getPrincipal().getUsername()}"></div>
+<!--                        현재 로그인한 유저-->
+<!--                        <div th:text="${#authentication.getPrincipal().getUsername()}"></div>-->
                         <th:block th:if="${answer.site_user != null and #authentication.getPrincipal().getUsername() == answer.site_user.username}">
                             <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                                 <input type="button" class="btn btn-outline-primary me-md-2" th:answer_id="${answer.id}"
