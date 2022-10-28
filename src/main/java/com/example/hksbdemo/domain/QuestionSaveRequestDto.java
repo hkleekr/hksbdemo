@@ -16,17 +16,7 @@ public class QuestionSaveRequestDto {
     private String subject;
     private SiteUser site_user;
 
-    @Builder
-
-    public QuestionSaveRequestDto(String content, LocalDateTime create_date, LocalDateTime modify_date, String subject, SiteUser site_user) {
-        this.content = content;
-        this.create_date = create_date;
-        this.modify_date = modify_date;
-        this.subject = subject;
-        this.site_user = site_user;
-    }
-
-    // Dto에서 필요한 부분을 entity화 시킴
+//    Dto에서 요청 필요한 부분을 entity로 보냄, 변경할 수 없는 부분인, id, answerList는 제외시킴
     public Question toEntity() {
         return Question.builder()
                 .content(content)

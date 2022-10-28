@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
+//JpaRepository를 상속할 때는 제네릭스 타입으로 <엔터티 타입, PK속성 타입>을 지정하는 것이 규칙
 public interface QuestionRepository extends JpaRepository <Question, Integer> {
 
     List<Question> findBySubject(String subject);
@@ -19,5 +20,8 @@ public interface QuestionRepository extends JpaRepository <Question, Integer> {
     default Question findByAuthor_id(SiteUser author_id) {
         return null;
     }
+
+//    Repository의 메서드명은 데이터 조회하는 쿼리문의 where 조건을 결정하는 역할
+//    return type이 여러 건인 경우는 리턴타입을 리스트 형태로 해야함 : List<Question>
 }
 

@@ -2,9 +2,11 @@ package com.example.hksbdemo.domain;
 
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
+@NoArgsConstructor
 @Data
 public class AnswerSaveRequestDto {
 
@@ -15,17 +17,7 @@ public class AnswerSaveRequestDto {
     private SiteUser site_user;
     private Question question;
 
-    @Builder
-    public AnswerSaveRequestDto(String content, LocalDateTime create_date, LocalDateTime modify_date, SiteUser site_user, Question question) {
-        this.id = id;
-        this.content = content;
-        this.create_date = create_date;
-        this.modify_date = modify_date;
-        this.site_user = site_user;
-        this.question = question;
-    }
-
-    // Dto에서 필요한 부분을 entity화 시킴
+//    Dto에서 요청 필요한 부분을 entity로 보냄
     public Answer toEntity() {
         return Answer.builder()
                 .content(content)
@@ -34,8 +26,5 @@ public class AnswerSaveRequestDto {
                 .site_user(site_user)
                 .question(question)
                 .build();
-    }
-
-    public AnswerSaveRequestDto() {
     }
 }

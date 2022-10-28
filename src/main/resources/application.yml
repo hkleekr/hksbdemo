@@ -1,7 +1,5 @@
 server:
   port:   ${PORT:8080}
-# DATABASE-hkdev, 아래쪽은 local, local로 테스트 하고 dev로 갈 예정 -> prod
-
 
 spring:
   freemarker:
@@ -14,21 +12,19 @@ spring:
     mode: HTML5
     encoding: UTF-8
     cache: false
-
   devtools:
     livereload:
       enabled: true
   datasource:
     driver-class-name: org.postgresql.Driver
-#    url: jdbc:postgresql://localhost:5432/hksbdemo
-#    username: postgres
-#    password: 1234
-    url: ${DB_URL}
-    username: ${USERNAME}
-    password: ${PASSWORD}
-#    url: jdbc:postgresql://ec2-23-20-140-229.compute-1.amazonaws.com:5432/d9a6b8pktcch8d
-#    username: grettxkdredndq
-#    password: 9ec77fc50c273ec801eb7f8a923305537e672279e94b7aa9a521344e24fbbf9e
+#    localhost:8080
+    url: jdbc:postgresql://localhost:5432/hksbdemo
+    username: postgres
+    password: 1234
+#    heroku 배포
+#    url: ${DB_URL}
+#    username: ${USERNAME}
+#    password: ${PASSWORD}
   sql:
     init:
       encoding: utf-8
@@ -39,5 +35,7 @@ spring:
         format_sql: true
         show_sql: true
     hibernate:
-      ddl-auto: update
+      ddl-auto: validate
+#      ddl: 엔터티 기준, 테이블 생성규칙 정의
+#      개발환경: update / 운영환경: none or validate(변경사항이 있는지 검사만)로 정의함.
 

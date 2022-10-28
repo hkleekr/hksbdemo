@@ -1,7 +1,6 @@
 package com.example.hksbdemo.controller;
 
 import com.example.hksbdemo.domain.*;
-import com.example.hksbdemo.repository.answerRepository;
 import com.example.hksbdemo.repository.QuestionRepository;
 import com.example.hksbdemo.service.AnswerService;
 import com.example.hksbdemo.service.QuestionService;
@@ -26,6 +25,8 @@ import java.security.Principal;
 @Controller
 public class HomeController {
 
+//    url과 매핑된 함수는 결괏값을 리턴해야 함, void는 규칙 위반
+//    ROOT_URL을 "/board"로 지정
     @RequestMapping("/")
     public String root() {
         return "redirect:/board";
@@ -37,6 +38,7 @@ public class HomeController {
     private QuestionRepository questionRepository;
 
     // 메인페이지 - 로그인 없이 접근가능
+//    repository로 직접 접근하고 있음...service를 거쳐서 갈 수 있도록 코드 변경 필요
     @GetMapping("/board")
     public String list(Model model, @PageableDefault(size = 8, sort="id", direction = Sort.Direction.DESC) Pageable pageable,
                        @RequestParam(required = false, defaultValue = "") String searchText) {
@@ -46,19 +48,14 @@ public class HomeController {
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
         model.addAttribute("q", q);
-        return "list";
+        return "list"; // list.html
     }
 
 //    질문페이지
     @PreAuthorize("isAuthenticated()")  // 로그인 필요한 페이지
     @GetMapping("/board/question")
-    public String ques(Model model, @RequestParam(required = false) Integer id) {
-        if(id == null){
-            model.addAttribute("ques", new Question());
-        } else {
-            Question ques = questionRepository.findById(id).orElse(null);
-            model.addAttribute("ques", ques);
-        }
+    public String ques(Model model) { //빈 model을 생성, , @RequestParam(required = false) Integer id없이도 동작하는데 이상 없음.
+        model.addAttribute("ques", new Question()); //Get을 요청하면, question 인스턴스를 생성해서 빈 페이지에 깔고 화면에 제시함
         return "questiondetail";
     }
 

@@ -2,7 +2,7 @@ package com.example.hksbdemo.service;
 
 import com.example.hksbdemo.DataNotFoundException;
 import com.example.hksbdemo.domain.*;
-import com.example.hksbdemo.repository.answerRepository;
+import com.example.hksbdemo.repository.AnswerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,7 +16,7 @@ import java.util.Optional;
 @Service
 public class AnswerService {
 
-    private final answerRepository answerRepository;
+    private final AnswerRepository answerRepository;
 
 //    답변 등록, 작성자 연결
     @Transactional

@@ -31,9 +31,9 @@ public class Answer {
     @JoinColumn(name = "author_id")
     private SiteUser site_user;
 
-    @ManyToOne
+    @ManyToOne  // 여러 개의 답변과 질문 1개가 연결 됨을 명시
     @JoinColumn(name = "question_id")
-    private Question question;
+    private Question question; //Question Entity와 연결된 속성임을 표기
 
 //    for 추천 10/26
     @ManyToMany

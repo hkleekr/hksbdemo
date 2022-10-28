@@ -15,6 +15,7 @@ import java.util.List;
 @Setter
 @Entity(name = "question")
 public class Question {
+//    왜 오버라이드 하는가?
     @Override
     public String toString() {
         return "question{" +
@@ -50,15 +51,15 @@ public class Question {
     @JoinColumn(name = "author_id")
     private SiteUser site_user;
 
-    @OneToMany (mappedBy = "question", cascade = CascadeType.REMOVE) // cascade => answer도 함께 저장
-//    @OrderBy("id asc")  // 댓글 정렬 10/17 추가
-    private List<Answer> answerList;  // 이 항목을 추가함으로써 answer와 연결
+    @OneToMany (mappedBy = "question", cascade = CascadeType.REMOVE) // 질문 1개 to 답변 여러 개의 관계, cascade = REMOVE => 질문 삭제하면, 달린 답변 모두 삭제
+    private List<Answer> answerList;  // 답변을 참조하기 위해, question.getAnswerList()형태로 호출 가능해 짐
 
 //    for 추천 10/26
     @ManyToMany
     Set<SiteUser> voter;  //중복을 허용하지 않기 위해 set
 
-    @Builder
+
+    @Builder  //Entity에 생성자 대체로 만든다. DTO에는 필요 없음
     public Question(String content, LocalDateTime create_date, LocalDateTime modify_date, String subject, SiteUser site_user) {
         this.content = content;
         this.create_date = create_date;
@@ -66,6 +67,10 @@ public class Question {
         this.subject = subject;
         this.site_user = site_user;
     }
+
+//    기본생성자 @NoArgsConstructor 애너테이션을 사용했으므로 생성자 불필요함
+//    public Question() {
+//    }
 
     @PrePersist
     void create_date() {
