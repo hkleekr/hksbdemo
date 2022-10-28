@@ -18,13 +18,13 @@ spring:
   datasource:
     driver-class-name: org.postgresql.Driver
 #    localhost:8080
-    url: jdbc:postgresql://localhost:5432/hksbdemo
-    username: postgres
-    password: 1234
+#    url: jdbc:postgresql://localhost:5432/hksbdemo
+#    username: postgres
+#    password: 1234
 #    heroku 배포
-#    url: ${DB_URL}
-#    username: ${USERNAME}
-#    password: ${PASSWORD}
+    url: ${DB_URL}
+    username: ${USERNAME}
+    password: ${PASSWORD}
   sql:
     init:
       encoding: utf-8
