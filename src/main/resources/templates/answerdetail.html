@@ -13,8 +13,7 @@
     <nav th:replace="navbar :: navbarFragment"></nav>
 <!--질문 영역    -->
 <div class="container my-3">
-    <form action="#">
-        <!--        <input type="hidden">-->
+    <form>
         <h2 id="questionTitle" class="border-bottom py-2" type="input" th:text="${detail.subject}"></h2>
         <div class="card border-success mb-3">
             <div class="card-body text-success">
@@ -47,7 +46,6 @@
                 </th:block>
             </div>
         </div>
-
     </form>
 
     <!--답변쓰기영역-->

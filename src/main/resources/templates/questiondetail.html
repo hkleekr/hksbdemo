@@ -13,14 +13,13 @@
 <nav th:replace="navbar :: navbarFragment"></nav>
 <!--질문 영역, 쓰기 기능이 구현되어야 함    -->
 <div class="container my-3">
-    <form action="#" th:action="@{/board/question}" th:object="${ques}" method="post">
-        <input type="hidden" th:field="*{id}">
+    <form>
         <!--    제목-->
         <div>
             <div>
                 <h3 class="border-bottom py-2">제목을 입력하세요</h3>
             </div>
-            <input type="text" class="form-control" th:classappend="${#fields.hasErrors('subject')} ? 'is-invalid'" id="subject" th:field="*{subject}">
+            <input type="text" class="form-control" id="subject">
         </div>
         <!--    글내용-->
         <div>
