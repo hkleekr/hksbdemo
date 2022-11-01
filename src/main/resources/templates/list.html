@@ -47,7 +47,7 @@
         <a th:text="${question.subject}" th:href="@{/board/detail/(id=${question.id})}"></a><!--      제목-->
         <span class="badge rounded-pill text-bg-warning" th:if="${#lists.size(question.answerList) > 0}" th:text="${#lists.size(question.answerList)}"></span><!--      답변 개수-->
       </td>
-      <td><span th:if="${question.site_user !=null}" th:text="${question.site_user.username}"></span></td><!--      글쓴이-->
+      <td th:if="${question.site_user !=null}" th:text="${question.site_user.username}"></td><!--글쓴이-->
       <td th:text="${#temporals.format(question.create_date,'YYYY-MM-dd HH:mm:ss')}"></td><!--      작성일시-->
     </tr>
     </tbody>

@@ -38,7 +38,6 @@ public class HomeController {
     private QuestionRepository questionRepository;
 
 //    메인페이지 - 로그인 없이 접근
-//    repository로 직접 접근하고 있음...service를 거쳐서 갈 수 있도록 코드 변경 필요
 //    Page를 통해서 사용가능한 데이터의 총 갯수 & 전체 페이지수 확인, ->총 페이지수 확인을 위해 카운트쿼리 실행함
     @GetMapping("/board")
     public String list(Model model, @PageableDefault(size = 8, sort="id", direction = Sort.Direction.DESC) Pageable pageable,
@@ -134,12 +133,30 @@ public class HomeController {
     }
 
 //    마이페이지
+//    @PreAuthorize("isAuthenticated()")  // 로그인 필요한 페이지
+//    @GetMapping("/user/mypage")
+//    public String callMyPage(@RequestParam(required = false) Long id, Model model) {
+//        model.addAttribute("callMyPage", new SiteUser());
+//        return "userPage";
+//    }
+
     @PreAuthorize("isAuthenticated()")  // 로그인 필요한 페이지
     @GetMapping("/user/mypage")
-    public String callMyPage(@RequestParam(required = false) Long id, Model model) {
-        model.addAttribute("callMyPage", new SiteUser());
+    public String callMyPage(Principal principal, Model model) { // principal을 통해 로그인된 user정보를 받음
+        model.addAttribute("callMyPage", principal.getName());
         return "userPage";
     }
+
+//    로그인된 유저의 정보를 불러오는 Controller* fetch(GET)와 통신
+    @GetMapping("/user/mypage/api")
+    public ResponseEntity<String> info(Principal principal) {    // 인자 값은 user만 받는다
+        return ResponseEntity.ok().body(principal.getName());    // return값은 user의 이름을 받는다.
+    }
+
+//    @GetMapping("/user/mypage/api")
+//    public ResponseEntity<Principal> info(Principal principal) {    // 인자 값은 Principle만 받는다
+//        return ResponseEntity.ok().body(principal);    // return값으로 내가 원하는 값을 받아서 골라쓰고 싶다면, Principle
+//    }
 
 //    회원수정
     @PutMapping("/user/mypage")
@@ -180,13 +197,4 @@ public class HomeController {
         this.answerService.aVote(answer, siteUser);
         return String.format("redirect:/board/detail/?id=%s", answer.getQuestion().getId());  //동작은 하는데, 이곳의 id가 Question_id여야 함
     }
-
-
-//    게시판 추천기능을 위한 코드
-//    boolean like = false; // 비로그인 유저라면 무조건 false;
-//    if(user != null) {  // 로그인 했다면
-//
-//        Long member_id = user.getMember().getId()
-//    }
-//}
 }

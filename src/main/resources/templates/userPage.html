@@ -17,11 +17,12 @@
       <h4>회원정보</h4>
     </div>
   </div>
-  <form th:action="@{/user/signup}" th:object="${userCreateForm}" method="post">
+  <form>
     <div class="mb-3">
-      <span>사용자 ID: </span>
-<!--      로그인과 연결하면 readonly 옵션 추가할 것(그런 것이 있다면,,)-->
-      <input id="writeUsername" type="text" class="form-control">
+      <span>사용자 ID:</span>
+<!--      <div th:text="${callMyPage}"></div>-->
+<!--      <textarea id="writeUsername" type="text" class="form-control" th:text="${callMyPage}" style="height: 30px" readonly></textarea>-->
+      <input id="writeUsername" type="text" class="form-control" readonly>
     </div>
     <div class="mb-3">
       <span>비밀번호: </span>
@@ -40,7 +41,27 @@
   </form>
 </div>
 <script>
+  const LoadInfo = () => {
+    // 회원정보 보여주기
+    fetch("/user/mypage/api", {
+      method: "GET",
+      // body: params,
+      headers: {}
+    })
+            .then((response) => {
+              if (response.ok) {
+                return response.text()  // text로 값을 받음
+              }
+            })
+            //콜백함수
+            .then(data => {
+              document.getElementById("writeUsername").value = data  // username을 받아서, 원하는 곳에 출력하기
+            })
+            .catch((error) => alert(error))
+  }
+
   document.addEventListener("DOMContentLoaded", () => {
+    LoadInfo();
     // 회원정보수정
     document.getElementById("btnUserModify").addEventListener("click",()=>{
       let params = new FormData;
