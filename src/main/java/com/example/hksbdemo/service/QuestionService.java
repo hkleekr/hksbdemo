@@ -8,11 +8,16 @@ import com.example.hksbdemo.repository.QuestionRepository;
 import com.example.hksbdemo.domain.QuestionSaveRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 @RequiredArgsConstructor
 @Service
@@ -81,5 +86,11 @@ public class QuestionService {
     public void qVote(Question question, SiteUser siteUser) {
         question.getVoter().add(siteUser);
         this.questionRepository.save(question);
+    }
+
+//     boardList를 위해 생성
+    public Object getAll() {
+        List<Question> oq = questionRepository.findAllByOrderByIdDesc();
+        return oq;
     }
 }

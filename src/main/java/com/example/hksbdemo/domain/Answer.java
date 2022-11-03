@@ -1,5 +1,6 @@
 package com.example.hksbdemo.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
 
 import javax.persistence.*;
@@ -33,6 +34,7 @@ public class Answer {
 
     @ManyToOne  // 여러 개의 답변과 질문 1개가 연결 됨을 명시
     @JoinColumn(name = "question_id")
+    @JsonBackReference  //question-answer의 순환참조를 해결하기 위해
     private Question question; //Question Entity와 연결된 속성임을 표기
 
 //    for 추천 10/26

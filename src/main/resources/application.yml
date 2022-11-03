@@ -18,13 +18,13 @@ spring:
   datasource:
     driver-class-name: org.postgresql.Driver
 #    localhost:8080
-#    url: jdbc:postgresql://localhost:5432/hksbdemo
-#    username: postgres
-#    password: 1234
+    url: jdbc:postgresql://localhost:5432/hksbdemo
+    username: postgres
+    password: 1234
 #    heroku 배포
-    url: ${DB_URL}
-    username: ${USERNAME}
-    password: ${PASSWORD}
+#    url: ${DB_URL}
+#    username: ${USERNAME}
+#    password: ${PASSWORD}
   sql:
     init:
       encoding: utf-8
@@ -34,6 +34,7 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQL10Dialect
         format_sql: true
         show_sql: true
+        use_sql_comments: true  # query의 주석보기
     hibernate:
       ddl-auto: validate
 #      ddl: 엔터티 기준, 테이블 생성규칙 정의

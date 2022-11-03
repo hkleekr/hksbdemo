@@ -1,11 +1,13 @@
 <!doctype html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Bootstrap demo</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
 
 </head>
 <body>
@@ -36,21 +38,23 @@
     </form>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+        crossorigin="anonymous"></script>
 <!-- 자바스크립트 Start -->
 <script>
 
     document.addEventListener("DOMContentLoaded", () => {              // html document를 다 읽고 이벤트 호출, 페이지에 1번만 적으면 되는 부분
         //질문 등록
-        document.getElementById("btnQuestionSave").addEventListener("click",()=>{  // "btnQuestionSave" 클릭 이벤트 발생 시,
+        document.getElementById("btnQuestionSave").addEventListener("click", () => {  // "btnQuestionSave" 클릭 이벤트 발생 시,
             let params = new FormData;                                        // params라는 새로운 FormData의 객체를 생성
-            params.append("content",document.getElementById("questionContent").value) //param에 "questionContent" id에서 적은 값(value)을 "content"에 append 하시오
-            params.append("subject",document.getElementById("subject").value) //param에 "questionContent" id에서 적은 값(value)을 "content"에 append 하시오
+            params.append("content", document.getElementById("questionContent").value) //param에 "questionContent" id에서 적은 값(value)을 "content"에 append 하시오
+            params.append("subject", document.getElementById("subject").value) //param에 "questionContent" id에서 적은 값(value)을 "content"에 append 하시오
 
             fetch("/board/question", {    // "//board/question" 를 서버에 전달
                 method: "POST",          // POST 메소드
                 body: params,            // params를 (->위에서 만든 FormData 형식을 전달, 약간 포스트맨의 json 형식으로 요청하는 모양새..)
-                headers : {}             // header는 공백
+                headers: {}             // header는 공백
             })
                 .then((response) => {    // 그 다음에
                     if (response.ok) {   // 저장이 완료(ok)되면,
@@ -58,9 +62,9 @@
                     }
                 })
                 //콜백함수                // 다른 코드의 인수로서 넘겨주는 실행 가능한 코드, 위의 작업이 완료된 후 수행하라고
-                .then((res)=>{                     // 위에서 넘어온 "response.json"을 인자로 받고
+                .then((res) => {                     // 위에서 넘어온 "response.json"을 인자로 받고
                     console.log(res.responseCode); // "responseCode"를 콘솔에 출력 (-> AnswerResponseDto.java에 멤버변수로 들어가 있음
-                    if(res.responseCode === "성공"){ // 성공이라면,
+                    if (res.responseCode === "성공") { // 성공이라면,
                         alert("등록성공");                // "등록성공" 알림을 실행
                         window.location.href = "/board"  // 페이지 새로고침
                     }
@@ -69,27 +73,7 @@
                 .catch((error) => alert(error))     // 클릭이벤트 실행 중에 에러가 발생하면, 에러발생 알림창을 제시
         })
     })
+    <!-- 자바스크립트 End -->
 </script>
-<script type="text/javascript">
-    const delete_elements = document.getElementsByClassName("delete");
-    Array.from(delete_elements).forEach(function (element) {
-        element.addEventListener('click', function () {
-            if (confirm("정말로 삭제하시겠습니까?")) {
-                location.href = this.dataset.uri;
-            };
-        });
-    });
-
-    const recommend_elements = document.getElementsByClassName("recommend");
-    Array.from(recommend_elements).forEach(function (element) {
-        element.addEventListener('click', function () {
-            if (confirm("정말로 추천하시겠습니까?")) {
-                location.href = this.dataset.uri;
-            };
-        });
-    });
-</script>
-<!-- 자바스크립트 End -->
-
 </body>
 </html>

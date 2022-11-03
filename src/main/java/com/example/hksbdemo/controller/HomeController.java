@@ -19,6 +19,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -51,6 +52,28 @@ public class HomeController {
         return "list"; //
     }
 
+//    board에 db데이터를 가져오는 컨트롤러 11/1, 되는 친구
+//    @GetMapping("/board/api")
+//    public ResponseEntity<List<Question>> boardList() {  // argument 없이 동작하는 함수, ArrayList를 반환
+//        List boardList = (List) questionService.getAll();
+//        return ResponseEntity.ok().body(boardList);  // 질문 리스트를 반환 [{…}, {…}, {…}...{…}, {…}, {…}]
+//    }
+
+//    page기능 구현 및 검색기능을 위한 get 튜닝
+    @GetMapping("/board/api")
+    public ResponseEntity<List<Question>> boardList(Model model, @PageableDefault(size = 8) Pageable pageable,
+                                                    @RequestParam(required = false, defaultValue = "") String searchText) {
+        List boardList = (List) questionService.getAll();
+//        페이지네이션과 검색
+        Page<Question> q = questionRepository.findBySubjectContainingOrContentContaining(searchText, searchText, pageable);
+        int startPage = Math.max(1, q.getPageable().getPageNumber() - 4);
+        int endPage = Math.min(q.getTotalPages(), q.getPageable().getPageNumber() + 4);
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
+        model.addAttribute("q", q);
+//        질문리스트
+        return ResponseEntity.ok().body(boardList);  // 질문 리스트를 반환(역순) [{…}, {…}, {…}...{…}, {…}, {…}]
+    }
 //    질문페이지
     @PreAuthorize("isAuthenticated()")  // 로그인 필요한 페이지
     @GetMapping("/board/question")

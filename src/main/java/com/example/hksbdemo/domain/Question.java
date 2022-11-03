@@ -1,6 +1,8 @@
 package com.example.hksbdemo.domain;
 
 import com.example.hksbdemo.domain.question_voter.Question_Voter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.sun.istack.NotNull;
 import lombok.*;
 
@@ -47,11 +49,12 @@ public class Question {
     @Column(name = "subject", length = 200)
     private String subject;
 
-    @ManyToOne(fetch = FetchType.LAZY)  //여러 개의 질문을 한 명이 작성할 수 있으므로
+    @ManyToOne  //여러 개의 질문을 한 명이 작성할 수 있으므로
     @JoinColumn(name = "author_id")
     private SiteUser site_user;
 
     @OneToMany (mappedBy = "question", cascade = CascadeType.REMOVE) // 질문 1개 to 답변 여러 개의 관계, cascade = REMOVE => 질문 삭제하면, 달린 답변 모두 삭제
+    @JsonManagedReference  //question-answer의 순환참조를 해결하기 위해
     private List<Answer> answerList;  // 답변을 참조하기 위해, question.getAnswerList()형태로 호출 가능해 짐
 
 //    for 추천 10/26
@@ -73,9 +76,7 @@ public class Question {
 //    }
 
     @PrePersist
-    void create_date() {
-        this.create_date = this.create_date = LocalDateTime.now();
-    }
+    void create_date() { this.create_date = this.create_date = LocalDateTime.now(); }
 //    @PrePersist Modify_date에도 썼더니 에러발생
     void modify_date() {
         this.modify_date = this.modify_date = LocalDateTime.now();

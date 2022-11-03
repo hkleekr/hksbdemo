@@ -13,10 +13,10 @@
 <!--<회원가입영역>-->
 <div layout:fragment="content" class="container my-3">
   <div class="my-3 border-bottom">
-    <div>
+<!--    <div>-->
       <h4>회원정보</h4>
     </div>
-  </div>
+<!--  </div>-->
   <form>
     <div class="mb-3">
       <span>사용자 ID:</span>
@@ -28,10 +28,6 @@
       <span>비밀번호: </span>
       <input id="writePassword1" type="password" class="form-control">
     </div>
-    <!--    <div class="mb-3">-->
-    <!--      <span>비밀번호 확인: </span>-->
-    <!--      <input id="writePassword2" type="password" class="form-control">-->
-    <!--    </div>-->
     <div class="mb-3">
       <span>이메일: </span>
       <input id="writeEmail" type="email" class="form-control">
@@ -40,9 +36,10 @@
     <input id="btnUserDelete" class="btn btn-outline-danger me-md-2" type="button" value="회원탈퇴">
   </form>
 </div>
+
 <script>
+    // 회원정보 보여주기: 화면제시(GET)과는 별도의 Controller와 통신해야 함 / 함수를 선언한 후 document아래에서 호출하는 방식으로
   const LoadInfo = () => {
-    // 회원정보 보여주기
     fetch("/user/mypage/api", {
       method: "GET",
       // body: params,
@@ -50,7 +47,7 @@
     })
             .then((response) => {
               if (response.ok) {
-                return response.text()  // text로 값을 받음
+                return response.text()  // text로 값을 받음(username)
               }
             })
             //콜백함수

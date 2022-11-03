@@ -19,15 +19,16 @@ repositories {
 }
 
 dependencies {
-	//DB 연동
+	// DB 연동
+	// spring-boot-starter: 의존성과 설정을 자동화 해줌
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-web'       // jackson, servlet, multipart, logging의존성 추가됨, tomcat 추가됨 -> jar로 빌드해서 배포가능
 	implementation 'org.springframework.boot:spring-boot-starter-security'  // added at 10/20
 	implementation 'org.springframework.security:spring-security-test'
 	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'   // 점프 투 스프링부트 참조 10/21
 	implementation 'javax.validation:validation-api:2.0.1.Final'    // api 버전 확인필요
-	compileOnly 'org.springframework.boot:spring-boot-devtools'
+	compileOnly 'org.springframework.boot:spring-boot-devtools'             // java파일 수정 후 서버 재가동 없이 알아서 변경된 java파일의 컴파일 결과를 서버에 반영
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'org.postgresql:postgresql'
 	annotationProcessor 'org.projectlombok:lombok'

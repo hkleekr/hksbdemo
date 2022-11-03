@@ -15,6 +15,7 @@ public interface QuestionRepository extends JpaRepository <Question, Integer> {
 
     List<Question> findBySubject(String subject);
     List<Question> findBySubjectOrContent(String subject, String content);
+    List<Question> findAllByOrderByIdDesc();  // 처음부터 순서 맞춰서 데려온다.
 
     Page<Question> findBySubjectContainingOrContentContaining(String subject, String content, Pageable pageable);
     default Question findByAuthor_id(SiteUser author_id) {
